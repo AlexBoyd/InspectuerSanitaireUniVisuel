@@ -35,7 +35,8 @@ public class ClassControl : MonoBehaviour
 			ch.FlowParticles = Instantiate(FlowParticlePrefab) as GameObject;
 			ch.FlowParticles.transform.parent = transform;
 			ch.FlowParticles.transform.localPosition = Vector3.zero;
-			ch.FlowParticles.particleSystem.emissionRate = this.SewageLevel * ch.DepedancyValue;
+			ch.FlowParticles.particleSystem.startColor = new Color(SewageLevel * 0.05f, 1f - (SewageLevel * 0.05f), 0f);;
+			ch.FlowParticles.particleSystem.startSize = SewageLevel / 5f;
 		}
 		
 		
@@ -48,7 +49,9 @@ public class ClassControl : MonoBehaviour
 		
 		foreach(ClassHookup cc in ClassDependancies)
 		{
-			rigidbody.AddForce((cc.AttachedClass.gameObject.transform.position - gameObject.transform.position).normalized * Mathf.Pow(cc.DepedancyValue, 5f) * 10f / (Time.realtimeSinceStartup + 1));
+			rigidbody.AddForce((cc.AttachedClass.gameObject.transform.position - gameObject.transform.position).normalized 
+				* Mathf.Pow((cc.AttachedClass.gameObject.transform.position - gameObject.transform.position).sqrMagnitude, 1.2f)
+				* Mathf.Pow(cc.DepedancyValue, 4f) / (500f * (Time.realtimeSinceStartup + 10)));
 		}
 		
 		rigidbody.AddForce((Vector3.zero - new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f)).normalized * (Vector3.zero - gameObject.transform.position).sqrMagnitude * (Vector3.zero - gameObject.transform.position).sqrMagnitude / 100000000f);
@@ -58,7 +61,7 @@ public class ClassControl : MonoBehaviour
 			if(cc != this)
 			{
 				Vector3 distance = gameObject.transform.position - cc.gameObject.transform.position;
-				rigidbody.AddForce(distance.normalized * 1000f / (distance.sqrMagnitude * distance.magnitude));
+				rigidbody.AddForce(distance.normalized * 20f / (Mathf.Pow(distance.magnitude, 1.4f)));
 			}	
 		}
 		//Push to Z = 0;
@@ -73,24 +76,7 @@ public class ClassControl : MonoBehaviour
 		
 		foreach(ClassHookup ch in ClassDependancies)
 		{
-			ParticleSystem.Particle[] particles = new ParticleSystem.Particle[100];
-        	int length = ch.FlowParticles.particleSystem.GetParticles(particles); 
-         	int i = 0;
-
-        	ch.FlowParticles.transform.LookAt(ch.AttachedClass.transform);
-
-	        while (i < length) 
-			{
-	            if(Vector3.Distance(ch.AttachedClass.transform.position, particles[i].position) < 20f) 
-				{
-					Debug.Log("Killing the particles");
-	                particles[i].velocity = new Vector3(0,0,100000);;
-	            }
-	
-	            i++;
-	        }
-	
-	      	ch.FlowParticles.particleSystem.SetParticles(particles, length); 
+        	ch.FlowParticles.transform.LookAt(ch.AttachedClass.transform);	
 		}
     }
 }

@@ -1,0 +1,6 @@
+[submodule "pandamonium"]
+	path = pandamonium
+	url = git@github.com:AlexBoyd/pandamonium.git
+[submodule "gendarme"]
+	path = gendarme
+	url = git@github.com:AlexBoyd/unity-gendarme.git
