@@ -12,6 +12,7 @@ public class ClassControl : MonoBehaviour
 	public ClassGenerator ClassGen;
 	public GameObject FlowParticlePrefab;
 	
+	
 	[Serializable]
 	public class ClassHookup
 	{
