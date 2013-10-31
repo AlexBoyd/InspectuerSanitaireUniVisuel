@@ -29,6 +29,8 @@ public class ClassControl : MonoBehaviour
 	
 	private void Start()
 	{
+		//XMLParser parser = new XMLParser();
+		//parser.createObjects();
 		this.SewageLevel = UnityEngine.Random.Range(0,20);	
 		foreach(ClassHookup ch in ClassDependancies)
 		{
