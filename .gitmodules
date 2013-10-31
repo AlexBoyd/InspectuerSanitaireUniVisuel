@@ -4,3 +4,6 @@
 [submodule "gendarme"]
 	path = gendarme
 	url = git@github.com:AlexBoyd/unity-gendarme.git
+[submodule "cecil"]
+	path = cecil
+	url = git://github.com/jbevain/cecil.git
