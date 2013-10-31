@@ -14,7 +14,7 @@ public class ClassGenerator : MonoBehaviour {
 	{
 		for(int i = 0; i < NumberOfClasses; i++)
 		{
-			Classes.Add((Instantiate(ClassPrefab, Random.insideUnitSphere * 100f, Quaternion.identity) as GameObject).GetComponent<ClassControl>());
+			Classes.Add((Instantiate(ClassPrefab, Random.insideUnitSphere * 250f, Quaternion.identity) as GameObject).GetComponent<ClassControl>());
 			Classes[Classes.Count -1].ClassGen = this;
 			Classes[Classes.Count -1].gameObject.transform.parent = transform;
 		}
@@ -23,9 +23,9 @@ public class ClassGenerator : MonoBehaviour {
 		{
 			foreach(ClassControl cd in Classes)
 			{
-				if(cd != cc && DependancyFactor < Random.value * 100 + 5 * cc.ClassDependancies.Count - Mathf.Pow(cc.ClassDependancies.Count, 1.5f))
+				if(cd != cc && DependancyFactor < Random.value * 100 + 1 * cc.ClassDependancies.Count - Mathf.Pow(cc.ClassDependancies.Count, 1.5f))
 				{
-					cc.ClassDependancies. Add(new ClassControl.ClassHookup(cd, Random.Range(0.1f, 1f)));
+					cc.ClassDependancies.Add(new ClassControl.ClassHookup(cd, Random.Range(0.1f, 1f)));
 				}
 			}
 		}
