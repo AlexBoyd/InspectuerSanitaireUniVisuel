@@ -3,18 +3,11 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 public class GendarmeController : MonoBehaviour 
 {
-	public string GendarmeConsolePath = string.Empty;
-    public string AssemblyFilePath = string.Empty;
-//    public UnityEngine.Object AssemblyFile = null;
-    public string XmlFileName = string.Empty;
-    public string test = string.Empty;
-
-    public SeverityLevel Severity = SeverityLevel.All;
-    public ConfidenceLevel Confidence = ConfidenceLevel.All;
-
+    #region Enums
     public enum SeverityLevel
     {
         All,
@@ -33,4 +26,15 @@ public class GendarmeController : MonoBehaviour
         Normal,
         Low,
     }
+    #endregion
+
+    #region Member Variables
+    public bool DebugBuild = true;
+	public string GendarmeConsoleDirectory = string.Empty;
+    public string AssemblyFilePath = string.Empty;
+    public string XmlFileName = string.Empty;
+
+    public SeverityLevel Severity = SeverityLevel.All;
+    public ConfidenceLevel Confidence = ConfidenceLevel.All;
+    #endregion
 }
