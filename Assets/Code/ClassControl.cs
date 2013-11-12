@@ -47,11 +47,15 @@ public class ClassControl : MonoBehaviour
 		InnerClassEmitter.emissionRate = SewageLevel / 2f;
 		InnerClassEmitter.startColor = new Color(SewageLevel * 0.05f, 1f - (SewageLevel * 0.05f), 100f);	
 		
+		
+		//rigidbody forces are used on each object to do a physical annealing based spatial sort.
+		//All class nodes repeal each other, are attracted to their dependancies, and slowing gain drag 
+		//and squeezing forces to cause them to settle stocastically close to their dependancies.
+		
 		foreach(ClassHookup cc in ClassDependancies)
 		{
 			rigidbody.AddForce((cc.AttachedClass.gameObject.transform.position - gameObject.transform.position).normalized 
-				* Mathf.Pow((cc.AttachedClass.gameObject.transform.position - gameObject.transform.position).sqrMagnitude, 1.2f)
-				* Mathf.Pow(cc.DepedancyValue, 4f) / (800f * (Time.realtimeSinceStartup + 10)));
+				* Mathf.Pow(cc.DepedancyValue, 2f) * 10f);
 		}
 		
 		rigidbody.AddForce((Vector3.zero - new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f)).normalized * ManhatanDist(Vector3.zero, gameObject.transform.position).sqrMagnitude/ 80000f );
@@ -60,12 +64,12 @@ public class ClassControl : MonoBehaviour
 		{
 			if(cc != this)
 			{
-				Vector3 distance = gameObject.transform.position - cc.gameObject.transform.position;
-				rigidbody.AddForce(distance.normalized * 100f / (Mathf.Pow(distance.magnitude, 1.4f)));
+				Vector2 distance = gameObject.transform.position - cc.gameObject.transform.position;
+				rigidbody.AddForce(distance.normalized * 20000f / (Mathf.Pow(distance.magnitude, 2f)));
 			}	
 		}
 		//Push to Z = 0;
-		rigidbody.AddForce(new Vector3(0,0, -transform.position.z) * Mathf.Pow(Time.realtimeSinceStartup, 2) / 500f);
+		rigidbody.AddForce(new Vector3(0,0, -(transform.position.z + (ClassDependancies.Count *100))) * Mathf.Pow(Time.realtimeSinceStartup, 2) / 500f);
 		
 		
 		rigidbody.drag = Time.realtimeSinceStartup * 1f;
@@ -73,6 +77,7 @@ public class ClassControl : MonoBehaviour
 	
 	void LateUpdate() 
 	{          
+		//Manage all of the class to class particle streams. 
 		foreach(ClassHookup ch in ClassDependancies)
 		{
 			ParticleSystem.Particle[] particles = new ParticleSystem.Particle[ch.FlowParticles.particleSystem.particleCount];
