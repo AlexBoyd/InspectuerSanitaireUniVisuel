@@ -47,7 +47,8 @@ public class GendarmeControllerEditor : Editor
 
         if (GUILayout.Button("Run Gendarme"))
         {
-            string arguments = "--xml " + kDefaultXmlFileName +
+            string arguments =
+				"--xml " + myTarget.XmlFileName +
                 " --severity " + myTarget.Severity.ToString() +
                 " --confidence " + myTarget.Confidence.ToString() +
                 " " + "\"" + myTarget.AssemblyFilePath + "\"";
