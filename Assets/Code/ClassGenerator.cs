@@ -17,6 +17,8 @@ public class ClassGenerator : MonoBehaviour {
 			Classes.Add((Instantiate(ClassPrefab, Random.insideUnitSphere * 250f, Quaternion.identity) as GameObject).GetComponent<ClassControl>());
 			Classes[Classes.Count -1].ClassGen = this;
 			Classes[Classes.Count -1].gameObject.transform.parent = transform;
+            Classes[Classes.Count -1].ClassName = i.ToString();
+            Classes[Classes.Count -1].gameObject.name = "Class #" + i.ToString();
 		}
 		
 		foreach(ClassControl cc in Classes)

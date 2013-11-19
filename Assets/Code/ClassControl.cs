@@ -11,7 +11,7 @@ public class ClassControl : MonoBehaviour
 	public List<ClassHookup> ClassDependancies; 
 	public ClassGenerator ClassGen;
 	public GameObject FlowParticlePrefab;
-	
+    public string ClassName = string.Empty;
 	
 	[Serializable]
 	public class ClassHookup
