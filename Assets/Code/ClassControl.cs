@@ -11,7 +11,7 @@ public class ClassControl : MonoBehaviour
 	public List<ClassHookup> ClassDependancies; 
 	public ClassGenerator ClassGen;
 	public GameObject FlowParticlePrefab;
-    public string ClassName = string.Empty;	
+    public string ClassName = string.Empty;
 	
 	[Serializable]
 	public class ClassHookup
@@ -105,12 +105,6 @@ public class ClassControl : MonoBehaviour
 	
 	        ch.FlowParticles.particleSystem.SetParticles(particles, length);
 		}
-    }
-
-    private void OnMouseUpAsButton()
-    {
-        ClassInspectorPanel.Instance.SelectedClass = this;
-        ClassInspectorPanel.Instance.Show = true;
     }
 		
 	private Vector3 ManhatanDist(Vector3 v1, Vector3 v2)
