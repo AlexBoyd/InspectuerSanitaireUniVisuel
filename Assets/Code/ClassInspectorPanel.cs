@@ -6,31 +6,11 @@ using System.Collections.Generic;
 
 public class ClassInspectorPanel : MonoBehaviour
 {
-    private ClassControl mSelectedClass = null;
-	public ClassControl SelectedClass
-    {
-        get { return mSelectedClass; }
-        set
-        {
-            mSelectedClass = value;
-            FocusOnSelectedClass();
-        }
-    }
-
-    private bool mShow = false;
-    public bool Show
-    {
-        get { return mShow; }
-        set
-        {
-            mShow = value;
-            mPanelPos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
-        }
-    }
-
+    #region Tunables
     public Vector2 PanelSize = new Vector2(200, 100);
-    private Vector2 mPanelPos = Vector2.zero;
+    #endregion
 
+    #region Singleton stuff
     private static ClassInspectorPanel mInstance;
     public static ClassInspectorPanel Instance
     {
@@ -45,7 +25,40 @@ public class ClassInspectorPanel : MonoBehaviour
             return mInstance;
         }
     }
+    #endregion
 
+    #region Private Members
+    private ClassControl mSelectedClass = null;
+    private bool mShow = false;
+    private Vector2 mPanelPos = Vector2.zero;
+    #endregion
+
+    #region Public Properties
+    public ClassControl SelectedClass
+    {
+        get { return mSelectedClass; }
+        set
+        {
+            mSelectedClass = value;
+            if (mSelectedClass != null)
+            {
+                FocusOnSelectedClass();
+            }
+        }
+    }
+
+    public bool Show
+    {
+        get { return mShow; }
+        set
+        {
+            mShow = value;
+            mPanelPos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+        }
+    }
+    #endregion
+
+    #region Component Methods
     private void Awake()
     {
         if (mInstance != null && mInstance != this)
@@ -58,6 +71,16 @@ public class ClassInspectorPanel : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void OnEnable()
+    {
+        InputController.Instance.PostEvent += InputEventHandler;
+    }
+
+    private void OnDisable()
+    {
+        InputController.Instance.PostEvent -= InputEventHandler;
+    }
+
     private void OnGUI()
     {
         if (Show && SelectedClass != null)
@@ -66,10 +89,42 @@ public class ClassInspectorPanel : MonoBehaviour
             GUI.Label(new Rect(mPanelPos.x + 10, mPanelPos.y + 20, 100, 40), "Class name: " + SelectedClass.ClassName);
 
 //            GUI.BeginScrollView(new Rect(mPanelPos.x + 10, mPanelPos.y + 50, 100, 100),
-
         }
     }
+    #endregion
 
+    #region Event Handlers
+    private void InputEventHandler(Event ev)
+    {
+        if (ev != null && ev.isMouse && ev.type == EventType.MouseDown)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit = new RaycastHit();
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                ClassControl clickedClass = hit.transform.gameObject.GetComponent<ClassControl>();
+                if (clickedClass != null)
+                {
+                    if (SelectedClass == clickedClass)
+                    {
+                        Show = !Show;
+                    }
+                    else
+                    {
+                        SelectedClass = clickedClass;
+                        Show = true;
+                    }
+                }
+            }
+            else
+            {
+                SelectedClass = null;
+            }
+        }
+    }
+    #endregion
+
+    #region Private Methods
     private void FocusOnSelectedClass()
     {
         if (mSelectedClass != null)
@@ -78,4 +133,5 @@ public class ClassInspectorPanel : MonoBehaviour
             mSelectedClass.InnerClassEmitter.startColor = new Color(initColor.r, initColor.g, initColor.b + 100);
         }
     }
+    #endregion
 }
