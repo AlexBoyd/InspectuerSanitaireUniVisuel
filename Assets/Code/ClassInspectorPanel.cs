@@ -79,9 +79,13 @@ public class ClassInspectorPanel : MonoBehaviour
         }
 
         mInstance = this;
-        InputController.Instance.PostEvent += InputEventHandler;
 
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        InputController.Instance.PostEvent += InputEventHandler;
     }
 
     private void OnGUI()
