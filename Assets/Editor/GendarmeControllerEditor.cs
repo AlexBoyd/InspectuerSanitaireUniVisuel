@@ -14,7 +14,7 @@ public class GendarmeControllerEditor : Editor
     public const string kDefaultRuleSetsFileName = "rules.xml";
     public const string kDefaultRuleSets = "default";
     public const string kDefaultAssemblyPath = "\\pandamonium\\Build\\Pandamonium_Data\\Managed\\Assembly-CSharp.dll";
-    public const string kDefaultXmlFileName = "test.xml";
+    public const string kDefaultResultsXmlFileName = "test.xml";
 
     public override void OnInspectorGUI()
     {
@@ -35,9 +35,19 @@ public class GendarmeControllerEditor : Editor
             }
         }
 
-        if (myTarget.XmlFileName == string.Empty)
+        if (myTarget.ResultsDirectory == string.Empty || myTarget.UseDefaultResultsDirectory)
         {
-            myTarget.XmlFileName = kDefaultXmlFileName;
+            myTarget.ResultsDirectory = applicationPath.FullName;
+        }
+
+        if (myTarget.ResultsXmlFileName == string.Empty || myTarget.UseDefaultResultsXmlFileName)
+        {
+            myTarget.ResultsXmlFileName = kDefaultResultsXmlFileName;
+        }
+
+        if (string.IsNullOrEmpty(Path.GetExtension(myTarget.ResultsXmlFileName)))
+        {
+          myTarget.ResultsXmlFileName += ".xml";
         }
 
         if (myTarget.RuleSetsFileName == string.Empty || myTarget.UseDefaultRuleSetsFileName)
@@ -57,10 +67,11 @@ public class GendarmeControllerEditor : Editor
 
         if (GUILayout.Button("Run Gendarme"))
         {
+            string resultsFullPath = myTarget.ResultsDirectory + "\\" + myTarget.ResultsXmlFileName;
             string arguments =
                 " --config " + myTarget.RuleSetsFileName +
                 " --set " + myTarget.RuleSetsToRun +
-				" --xml " + myTarget.XmlFileName +
+				" --xml " + "\"" + resultsFullPath + "\"" +
                 " --severity " + myTarget.Severity.ToString() +
                 " --confidence " + myTarget.Confidence.ToString() +
                 " " + "\"" + myTarget.AssemblyFilePath + "\"";
@@ -78,13 +89,14 @@ public class GendarmeControllerEditor : Editor
         {
             if (Event.current.button == 0)
             {
-                if (File.Exists(myTarget.GendarmeConsoleDirectory + myTarget.XmlFileName))
+                string resultsFullPath = myTarget.ResultsDirectory + "\\" + myTarget.ResultsXmlFileName;
+                if (File.Exists(resultsFullPath))
                 {
-                    System.Diagnostics.Process.Start("explorer.exe", string.Format("/select, {0}", myTarget.GendarmeConsoleDirectory + myTarget.XmlFileName));
+                    System.Diagnostics.Process.Start("explorer.exe", string.Format("/select, {0}", resultsFullPath));
                 }
                 else
                 {
-                    System.Diagnostics.Process.Start("explorer.exe", string.Format("/select, {0}", myTarget.GendarmeConsoleDirectory));
+                    System.Diagnostics.Process.Start("explorer.exe", string.Format("/select, {0}", myTarget.ResultsDirectory));
                 }
             }
         }

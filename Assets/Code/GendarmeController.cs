@@ -38,7 +38,10 @@ public class GendarmeController : MonoBehaviour
     public string RuleSetsToRun = string.Empty;
     public bool UseDefaultAssemblyFilePath = true;
     public string AssemblyFilePath = string.Empty;
-    public string XmlFileName = string.Empty;
+    public bool UseDefaultResultsDirectory = true;
+    public string ResultsDirectory = string.Empty;
+    public bool UseDefaultResultsXmlFileName = false;
+    public string ResultsXmlFileName = string.Empty;
 
     public SeverityLevel Severity = SeverityLevel.All;
     public ConfidenceLevel Confidence = ConfidenceLevel.All;
