@@ -6,37 +6,47 @@ using System.Collections.Generic;
 
 public class ClassControl : MonoBehaviour 
 {
+    #region Nested Classes
+    [Serializable]
+    public class ClassHookup
+    {
+        public ClassControl AttachedClass;
+        public float DepedancyValue;
+        public GameObject FlowParticles;
+    
+        public ClassHookup(ClassControl cc, float dv)
+        {
+            this.AttachedClass = cc;
+            this.DepedancyValue = dv;
+        }
+    }
+    #endregion
+
 	public ParticleSystem InnerClassEmitter;
 	public int SewageLevel = 20;
 	public List<ClassHookup> ClassDependancies; 
 	public ClassGenerator ClassGen;
 	public GameObject FlowParticlePrefab;
     public string ClassName = string.Empty;
-	
-	[Serializable]
-	public class ClassHookup
-	{
-		public ClassControl AttachedClass;
-		public float DepedancyValue;
-		public GameObject FlowParticles;
-		
-		public ClassHookup(ClassControl cc, float dv)
-		{
-			this.AttachedClass = cc;
-			this.DepedancyValue = dv;
-		}
-	}
+
+    public Color BaseInnerParticleColor = Color.white;
+    public Color BaseDependencyParticleColor = Color.white;
 
     #region Component Methods
 	private void Start()
 	{
-		this.SewageLevel = UnityEngine.Random.Range(0,20);	
+		this.SewageLevel = UnityEngine.Random.Range(0,20);
+        BaseDependencyParticleColor = new Color(SewageLevel * 0.05f, 1f - (SewageLevel * 0.05f), 0f);
+        BaseInnerParticleColor = new Color(SewageLevel * 0.05f, 1f - (SewageLevel * 0.05f), 100f);
+
+        InnerClassEmitter.startColor = BaseInnerParticleColor;
+
 		foreach(ClassHookup ch in ClassDependancies)
 		{
 			ch.FlowParticles = Instantiate(FlowParticlePrefab) as GameObject;
 			ch.FlowParticles.transform.parent = transform;
 			ch.FlowParticles.transform.localPosition = Vector3.zero;
-			ch.FlowParticles.particleSystem.startColor = new Color(SewageLevel * 0.05f, 1f - (SewageLevel * 0.05f), 0f);;
+			ch.FlowParticles.particleSystem.startColor = BaseDependencyParticleColor;
 			ch.FlowParticles.particleSystem.startSize = SewageLevel;
 			ch.FlowParticles.particleSystem.emissionRate = ch.DepedancyValue * 5f;
 		}
@@ -45,7 +55,6 @@ public class ClassControl : MonoBehaviour
 	private void Update()
 	{
 		InnerClassEmitter.emissionRate = SewageLevel / 2f;
-		InnerClassEmitter.startColor = new Color(SewageLevel * 0.05f, 1f - (SewageLevel * 0.05f), 100f);
 
 		//rigidbody forces are used on each object to do a physical annealing based spatial sort.
 		//All class nodes repeal each other, are attracted to their dependancies, and slowing gain drag 
@@ -102,6 +111,45 @@ public class ClassControl : MonoBehaviour
 
 	        ch.FlowParticles.particleSystem.SetParticles(particles, length);
 		}
+    }
+    #endregion
+
+    #region Public Methods
+    public void ChangeInnerParticleColor(Color newColor)
+    {
+        ParticleSystem.Particle[] particles = new ParticleSystem.Particle[InnerClassEmitter.particleSystem.particleCount];
+        int numParticles = InnerClassEmitter.particleSystem.GetParticles(particles);
+
+        for (int i=0; i < numParticles; i++)
+        {
+            particles[i].color = newColor;
+        }
+
+        InnerClassEmitter.particleSystem.SetParticles(particles, numParticles);
+        InnerClassEmitter.startColor = newColor;
+    }
+
+    public void ChangeDependencyParticleColor(Color newColor)
+    {
+        foreach(ClassHookup ch in ClassDependancies)
+        {
+            ParticleSystem.Particle[] particles = new ParticleSystem.Particle[ch.FlowParticles.particleSystem.particleCount];
+            int numParticles = ch.FlowParticles.particleSystem.GetParticles(particles);
+
+            for (int i=0; i < numParticles; i++)
+            {
+                particles[i].color = newColor;
+            }
+
+            ch.FlowParticles.particleSystem.SetParticles(particles, numParticles);
+            ch.FlowParticles.particleSystem.startColor = newColor;
+        }
+    }
+
+    public void RevertColorsToBase()
+    {
+        ChangeInnerParticleColor(BaseInnerParticleColor);
+        ChangeDependencyParticleColor(BaseDependencyParticleColor);
     }
     #endregion
 

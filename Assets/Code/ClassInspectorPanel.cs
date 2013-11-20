@@ -7,7 +7,8 @@ using System.Collections.Generic;
 public class ClassInspectorPanel : MonoBehaviour
 {
     #region Tunables
-    public Vector2 PanelSize = new Vector2(200, 100);
+    public Vector2 PanelSize = new Vector2(200, 400);
+    public Color SelectedClassParticleColor = Color.blue;
     #endregion
 
     #region Singleton stuff
@@ -31,6 +32,7 @@ public class ClassInspectorPanel : MonoBehaviour
     private ClassControl mSelectedClass = null;
     private bool mShow = false;
     private Vector2 mPanelPos = Vector2.zero;
+    private Vector2 mScrollPos = Vector2.zero;
     #endregion
 
     #region Public Properties
@@ -39,10 +41,20 @@ public class ClassInspectorPanel : MonoBehaviour
         get { return mSelectedClass; }
         set
         {
+            ClassControl prevSelectedClass = mSelectedClass;
             mSelectedClass = value;
-            if (mSelectedClass != null)
+
+            if (mSelectedClass != prevSelectedClass)
             {
-                FocusOnSelectedClass();
+                if (mSelectedClass != null)
+                {
+                    FocusOnSelectedClass();
+                }
+
+                if (prevSelectedClass != null)
+                {
+                    prevSelectedClass.RevertColorsToBase();
+                }
             }
         }
     }
@@ -67,28 +79,46 @@ public class ClassInspectorPanel : MonoBehaviour
         }
 
         mInstance = this;
+        InputController.Instance.PostEvent += InputEventHandler;
 
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void OnEnable()
-    {
-        InputController.Instance.PostEvent += InputEventHandler;
-    }
-
-    private void OnDisable()
-    {
-        InputController.Instance.PostEvent -= InputEventHandler;
     }
 
     private void OnGUI()
     {
         if (Show && SelectedClass != null)
         {
-            GUI.Box(new Rect(mPanelPos.x, mPanelPos.y, PanelSize.x, PanelSize.y), "Class Inspector");
-            GUI.Label(new Rect(mPanelPos.x + 10, mPanelPos.y + 20, 100, 40), "Class name: " + SelectedClass.ClassName);
+            //Draw the box panel
+            Rect panel = new Rect(mPanelPos.x, mPanelPos.y, PanelSize.x, PanelSize.y);
+            GUI.Box(panel, "Class Inspector");
 
-//            GUI.BeginScrollView(new Rect(mPanelPos.x + 10, mPanelPos.y + 50, 100, 100),
+            Rect panelArea = new Rect(panel.x, panel.y + 40, panel.width, panel.height);
+            GUILayout.BeginArea(panelArea);
+            GUILayout.BeginVertical();
+
+            //Class name
+            GUILayout.Label("Class name: " + SelectedClass.ClassName);
+
+            //Class sewage level
+            GUILayout.Label("Sewage level: " + SelectedClass.SewageLevel);
+
+            //List class dependencies
+            GUILayout.Label("Class dependencies (" + SelectedClass.ClassDependancies.Count + "):");
+            mScrollPos = GUILayout.BeginScrollView(mScrollPos, false, false);
+            foreach(ClassControl.ClassHookup ch in SelectedClass.ClassDependancies)
+            {
+                if (ch.AttachedClass != null)
+                {
+                    if (GUILayout.Button(ch.AttachedClass.ClassName))
+                    {
+                        SelectedClass = ch.AttachedClass;
+                    }
+                }
+            }
+
+            GUILayout.EndScrollView();
+            GUILayout.EndVertical();
+            GUILayout.EndArea();
         }
     }
     #endregion
@@ -127,10 +157,10 @@ public class ClassInspectorPanel : MonoBehaviour
     #region Private Methods
     private void FocusOnSelectedClass()
     {
-        if (mSelectedClass != null)
+        if (SelectedClass != null)
         {
-            Color initColor = mSelectedClass.InnerClassEmitter.startColor;
-            mSelectedClass.InnerClassEmitter.startColor = new Color(initColor.r, initColor.g, initColor.b + 100);
+            SelectedClass.ChangeInnerParticleColor(SelectedClassParticleColor);
+            SelectedClass.ChangeDependencyParticleColor(SelectedClassParticleColor);
         }
     }
     #endregion
