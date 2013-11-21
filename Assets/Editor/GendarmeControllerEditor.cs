@@ -13,7 +13,7 @@ public class GendarmeControllerEditor : Editor
     public const string kDefaultGendarmeConsoleReleaseDirectory = "\\gendarme\\gendarme\\console\\bin\\Release\\";
     public const string kDefaultRuleSetsFileName = "rules.xml";
     public const string kDefaultRuleSets = "default";
-    public const string kDefaultAssemblyPath = "\\pandamonium\\Build\\Pandamonium_Data\\Managed\\Assembly-CSharp.dll";
+    public const string kDefaultAssemblyPath = "\\pandamonium\\Library\\ScriptAssemblies\\Assembly-CSharp.dll";
     public const string kDefaultResultsXmlFileName = "test.xml";
 
     public override void OnInspectorGUI()
