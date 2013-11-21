@@ -7,9 +7,11 @@ using System.Xml;
 using System.IO;
 using System.Text;
 
-public class XMLParser : MonoBehaviour
+public class XMLParser : Singleton<XMLParser>
 {
     public Action<List<DefectInfo>> DefectListPopulated;
+
+    [SerializeField]private GendarmeController m_GendarmeController = null;
 
 	#region Private Members
     private List<DefectInfo> mListOfDefects = new List<DefectInfo>();
@@ -81,39 +83,17 @@ public class XMLParser : MonoBehaviour
     }
     #endregion
 
-    #region Singleton stuff
-    private static XMLParser mInstance;
-    public static XMLParser Instance
-    {
-        get
-        {
-            if (mInstance == null)
-            {
-                Debug.LogWarning(string.Format("No {0} singleton exists! Creating new one.", typeof(XMLParser).Name));
-                GameObject owner = new GameObject("XMLParser");
-                mInstance = owner.AddComponent<XMLParser>();
-            }
-            return mInstance;
-        }
-    }
-    #endregion
-
     #region Component Methods
-    private void Awake()
+    private void Start()
     {
-        if (mInstance != null && mInstance != this)
+        if (m_GendarmeController != null)
         {
-            Destroy(gameObject);
+            PopulateDefectList(m_GendarmeController.ResultsXmlFullPath);
         }
-
-        mInstance = this;
-
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private void OnEnable()
-    {
-        PopulateDefectList(GendarmeController.Instance.ResultsXmlFullPath);
+        else
+        {
+            Debug.LogError("Missing GendarmeController reference on XMLParser!", this);
+        }
     }
     #endregion
 

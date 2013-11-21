@@ -10,40 +10,11 @@ using System.Collections.Generic;
 //  Drag camera
 //  Rotate camera
 
-public class InputController : MonoBehaviour
+public class InputController : Singleton<InputController>
 {
     public Action<Event> PostEvent;
 
-    #region Singleton stuff
-    private static InputController mInstance;
-    public static InputController Instance
-    {
-        get
-        {
-            if (mInstance == null)
-            {
-                Debug.LogWarning(string.Format("No {0} singleton exists! Creating new one.", typeof(InputController).Name));
-                GameObject owner = new GameObject("InputController");
-                mInstance = owner.AddComponent<InputController>();
-            }
-            return mInstance;
-        }
-    }
-    #endregion
-
     #region Component Methods
-    private void Awake()
-    {
-        if (mInstance != null && mInstance != this)
-        {
-            Destroy(gameObject);
-        }
-
-        mInstance = this;
-
-        DontDestroyOnLoad(gameObject);
-    }
-
     private void OnGUI()
     {
         if (Event.current.isMouse)
