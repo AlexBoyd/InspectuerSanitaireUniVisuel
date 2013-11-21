@@ -1,37 +1,33 @@
 using System;
 
-namespace AssemblyCSharp
+public class Severity
 {
-	public class Severity
-	{
-		 private int severity;
-        private string name;
+    private int severity;
+    private string name;
 
-        public Severity(string str, int r)
-        {
-            name = str;
-            severity = r;
-        }
+    public Severity(string str, int r)
+    {
+        name = str;
+        severity = r;
+    }
 
-        public void setSeverity(int r)
-        {
-            severity = r;
-        }
+    public void setSeverity(int r)
+    {
+        severity = r;
+    }
 
-        public void setName(string str)
-        {
-            name = str;
-        }
+    public void setName(string str)
+    {
+        name = str;
+    }
 
-        public string getName()
-        {
-            return name;
-        }
+    public string getName()
+    {
+        return name;
+    }
 
-        public int getSeverity()
-        {
-            return severity;
-        }
-	}
+    public int getSeverity()
+    {
+        return severity;
+    }
 }
-
