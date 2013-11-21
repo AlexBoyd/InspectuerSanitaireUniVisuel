@@ -106,9 +106,8 @@ public class XMLParser : MonoBehaviour
         XmlReader reader = XmlReader.Create(filename);
         if (reader != null)
         {
-            while (reader.Read())
+            while (reader.ReadToFollowing(kTargetXmlElement))
             {
-                reader.ReadToFollowing(kTargetXmlElement);
                 reader.MoveToFirstAttribute();
                 string name = reader.Value;
 
