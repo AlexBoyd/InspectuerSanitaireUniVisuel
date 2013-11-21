@@ -7,9 +7,12 @@ using System.Xml;
 using System.IO;
 using System.Text;
 
-public class XMLParser : MonoBehaviour
+public class XMLParser : Singleton<XMLParser>
 {
     public Action<List<DefectInfo>> DefectListPopulated;
+
+    [SerializeField]private GendarmeController m_GendarmeController = null;
+
 	public int lowSevValue = 1;
 	public int medSevValue = 2;
 	public int highSevValue = 3;
@@ -91,39 +94,18 @@ public class XMLParser : MonoBehaviour
     }
     #endregion
 
-    #region Singleton stuff
-    private static XMLParser mInstance;
-    public static XMLParser Instance
-    {
-        get
-        {
-            if (mInstance == null)
-            {
-                Debug.LogWarning(string.Format("No {0} singleton exists! Creating new one.", typeof(XMLParser).Name));
-                GameObject owner = new GameObject("XMLParser");
-                mInstance = owner.AddComponent<XMLParser>();
-            }
-            return mInstance;
-        }
-    }
-    #endregion
-
     #region Component Methods
-    private void Awake()
+    private void Start()
     {
-        if (mInstance != null && mInstance != this)
+        if (m_GendarmeController != null)
         {
-            Destroy(gameObject);
+            //TODO: EXECUTE PARSING HERE
+//            PopulateDefectList(m_GendarmeController.ResultsXmlFullPath);
         }
-
-        mInstance = this;
-
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private void OnEnable()
-    {
-        PopulateDefectList(GendarmeController.Instance.ResultsXmlFullPath);
+        else
+        {
+            Debug.LogError("Missing GendarmeController reference on XMLParser!", this);
+        }
     }
     #endregion
 
@@ -132,38 +114,38 @@ public class XMLParser : MonoBehaviour
     // gets the name of the target class and the severity of the defect
     // creates a DefectInfo object for each name and severity pair
     // puts each DefectInfo object in the list of DefectInfo objects
-    public void PopulateDefectList(string filename)
-    {
-        XmlReader reader = XmlReader.Create(filename);
-        if (reader != null)
-        {
-            while (reader.ReadToFollowing(kTargetXmlElement))
-            {
-                reader.MoveToFirstAttribute();
-                string name = reader.Value;
-
-                reader.ReadToFollowing(kDefectXmlAttribute);
-                reader.MoveToFirstAttribute();
-                GendarmeController.SeverityLevel severity = StringToSeverityLevel(reader.Value);
-
-                mListOfDefects.Add(new DefectInfo(name, severity));
-            }
-            reader.Close();
-
-            if (DefectListPopulated != null)
-            {
-                DefectListPopulated(mListOfDefects);
-            }
-        }
-        else
-        {
-            Debug.LogError(string.Format("Unable to read file {0}", filename), this);
-        }
-    }
+//    public void PopulateDefectList(string filename)
+//    {
+//        XmlReader reader = XmlReader.Create(filename);
+//        if (reader != null)
+//        {
+//            while (reader.ReadToFollowing(kTargetXmlElement))
+//            {
+//                reader.MoveToFirstAttribute();
+//                string name = reader.Value;
+//
+//                reader.ReadToFollowing(kDefectXmlAttribute);
+//                reader.MoveToFirstAttribute();
+//                GendarmeController.SeverityLevel severity = StringToSeverityLevel(reader.Value);
+//
+//                mListOfDefects.Add(new DefectInfo(name, severity));
+//            }
+//            reader.Close();
+//
+//            if (DefectListPopulated != null)
+//            {
+//                DefectListPopulated(mListOfDefects);
+//            }
+//        }
+//        else
+//        {
+//            Debug.LogError(string.Format("Unable to read file {0}", filename), this);
+//        }
+//    }
 	
 	public void PopulateDependencyList(string filename)
 	{
-	XmlReader reader = XmlReader.Create(filename);
+	    XmlReader reader = XmlReader.Create(filename);
 		if (reader != null)
 		{
 			reader.ReadToFollowing(kDepRuleXmlElement);
@@ -221,7 +203,7 @@ public class XMLParser : MonoBehaviour
             case "Critical":
                 return critSevValue;
 			case "Audit":
-				return 0;		
+				return 0;
             default:
                 Debug.Log(string.Format("Can't convert {0} string to a SeverityLevel. Returning GendarmeController.SeverityLevel.All", str), this);
                 return 0;

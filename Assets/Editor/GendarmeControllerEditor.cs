@@ -100,20 +100,21 @@ public class GendarmeControllerEditor : Editor
         }
 
         //Reparse the XML file
-        if (GUILayout.Button("Reparse XML file"))
-        {
-            if (Event.current.button == 0)
-            {
-                XMLParser parser = myTarget.GetComponent<XMLParser>();
-                if (parser != null && File.Exists(myTarget.ResultsXmlFullPath))
-                {
-                    parser.PopulateDefectList(myTarget.ResultsXmlFullPath);
-                }
-                else
-                {
-                    Debug.LogError("Missing XMLParser component!");
-                }
-            }
-        }
+        //NO LONGER NEEDED
+//        if (GUILayout.Button("Reparse XML file"))
+//        {
+//            if (Event.current.button == 0)
+//            {
+//                XMLParser parser = myTarget.GetComponent<XMLParser>();
+//                if (parser != null && File.Exists(myTarget.ResultsXmlFullPath))
+//                {
+//                    parser.PopulateDefectList(myTarget.ResultsXmlFullPath);
+//                }
+//                else
+//                {
+//                    Debug.LogError("Missing XMLParser component!");
+//                }
+//            }
+//        }
     }
 }
