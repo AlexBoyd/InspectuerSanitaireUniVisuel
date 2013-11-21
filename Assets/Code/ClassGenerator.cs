@@ -9,6 +9,15 @@ public class ClassGenerator : Singleton<ClassControl>
 	public int NumberOfClasses = 7;
 	public float DependancyFactor = 64;
 	
+	[HideInInspector]
+	public int MaxNumberOfDependancies = 0;
+	
+	public float DepthIncrements = 250f;
+	public float DependencyAttractionFactor = 10f;
+	public float ClassRepulsionFactor = 20000f;
+	public float ManhattanCompressionDampingFactor = 80000f;
+	public float ZAxisCompressionDampingFactor = 500f;
+	
 	public List<ClassControl> Classes;
     #endregion
 
@@ -33,10 +42,11 @@ public class ClassGenerator : Singleton<ClassControl>
 		{
 			foreach (ClassControl cd in Classes)
 			{
-				if(cd != cc && DependancyFactor < Random.value * 100 + 1 * cc.ClassDependancies.Count - Mathf.Pow(cc.ClassDependancies.Count, 1.5f))
+				if(cd != cc && DependancyFactor < Random.value * 100 + 4 * cc.ClassDependancies.Count - Mathf.Pow(cc.ClassDependancies.Count, 1.5f))
 				{
 					cc.ClassDependancies.Add(new ClassControl.ClassHookup(cd, Random.Range(0.1f, 1f)));
 				}
+				MaxNumberOfDependancies = Mathf.Max(MaxNumberOfDependancies, cc.ClassDependancies.Count);
 			}
 		}
 	}
