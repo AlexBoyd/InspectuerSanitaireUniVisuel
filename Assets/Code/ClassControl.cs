@@ -63,21 +63,21 @@ public class ClassControl : MonoBehaviour
 		foreach(ClassHookup cc in ClassDependancies)
 		{
 			rigidbody.AddForce((cc.AttachedClass.gameObject.transform.position - gameObject.transform.position).normalized 
-				* Mathf.Pow(cc.DepedancyValue, 2f) * 10f);
+				* Mathf.Pow(cc.DepedancyValue, 2f) * ClassGen.DependencyAttractionFactor);
 		}
 
-		rigidbody.AddForce((Vector3.zero - new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f)).normalized * ManhatanDist(Vector3.zero, gameObject.transform.position).sqrMagnitude/ 80000f );
+		rigidbody.AddForce((Vector3.zero - new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f)).normalized * ManhatanDist(Vector3.zero, gameObject.transform.position).sqrMagnitude/ ClassGen.ManhattanCompressionDampingFactor );
 
 		foreach(ClassControl cc in ClassGen.Classes)
 		{
 			if(cc != this)
 			{
 				Vector2 distance = gameObject.transform.position - cc.gameObject.transform.position;
-				rigidbody.AddForce(distance.normalized * 20000f / (Mathf.Pow(distance.magnitude, 2f)));
+				rigidbody.AddForce(distance.normalized * ClassGen.ClassRepulsionFactor / (Mathf.Pow(distance.magnitude, 2f)));
 			}	
 		}
 		//Push to Z = 0;
-		rigidbody.AddForce(new Vector3(0,0, -(transform.position.z + (ClassDependancies.Count *100))) * Mathf.Pow(Time.realtimeSinceStartup, 2) / 500f);
+		rigidbody.AddForce(new Vector3(0,0, -(transform.position.z + (((ClassDependancies.Count - (ClassGen.MaxNumberOfDependancies/2)) * ClassGen.DepthIncrements)))) * Mathf.Pow(Time.realtimeSinceStartup, 2) / ClassGen.ZAxisCompressionDampingFactor);
 
 		rigidbody.drag = Time.realtimeSinceStartup * 1f;
 	}
