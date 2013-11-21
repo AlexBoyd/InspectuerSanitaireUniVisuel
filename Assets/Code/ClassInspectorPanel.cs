@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ClassInspectorPanel : MonoBehaviour
+public class ClassInspectorPanel : Singleton<ClassInspectorPanel>
 {
     #region Tunables
     public Vector2 PanelSize = new Vector2(200, 400);
@@ -53,37 +53,8 @@ public class ClassInspectorPanel : MonoBehaviour
     }
     #endregion
 
-    #region Singleton stuff
-    private static ClassInspectorPanel mInstance;
-    public static ClassInspectorPanel Instance
-    {
-        get
-        {
-            if (mInstance == null)
-            {
-                Debug.LogWarning(string.Format("No {0} singleton exists! Creating new one.", typeof(ClassInspectorPanel).Name));
-                GameObject owner = new GameObject("ClassInspectorPanel");
-                mInstance = owner.AddComponent<ClassInspectorPanel>();
-            }
-            return mInstance;
-        }
-    }
-    #endregion
-
     #region Component Methods
     private void Awake()
-    {
-        if (mInstance != null && mInstance != this)
-        {
-            Destroy(gameObject);
-        }
-
-        mInstance = this;
-
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
     {
         InputController.Instance.PostEvent += InputEventHandler;
     }
