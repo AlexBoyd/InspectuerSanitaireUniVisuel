@@ -3,17 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class ClassGenerator : MonoBehaviour
+public class ClassGenerator : Singleton<ClassGenerator>
 {
     #region Tunables
 	public GameObject ClassPrefab;
+	
+	public bool MockValues = false;
 	public int NumberOfClasses = 7;
-	
-	public int ParticleSize = 20f;
-	public int SelectedParticleSize = 50f;
-	
 	public float DependancyFactor = 64;
-	public float DependencyHubFactor = 2;
 	
 	[HideInInspector]
 	public int MaxNumberOfDependancies = 0;
@@ -27,67 +24,56 @@ public class ClassGenerator : MonoBehaviour
 	public List<ClassControl> Classes;
     #endregion
 
-    #region Singleton stuff
-    private static ClassGenerator mInstance;
-    public static ClassGenerator Instance
-    {
-        get
-        {
-            if (mInstance == null)
-            {
-                Debug.LogWarning(string.Format("No {0} singleton exists! Creating new one.", typeof(ClassGenerator).Name));
-                GameObject owner = new GameObject("Classes");
-                mInstance = owner.AddComponent<ClassGenerator>();
-            }
-            return mInstance;				
-        }
-    }
-    #endregion
-
     #region Component Methods
 	private void Awake()
 	{
-        if (mInstance != null && mInstance != this)
-        {
-            Destroy(gameObject);
-        }
-
-        mInstance = this;
-
-        DontDestroyOnLoad(gameObject);
+        XMLParser.Instance.ParseComplete += GenerateClasses;
     }
 
-    private void Start()
+    private void GenerateClasses(Dictionary<string, Dictionary<string, int>> dependencyScores, Dictionary<string, int> defectScores)
     {
-        XMLParser.Instance.DefectListPopulated += GenerateClasses;
-    }
-
-    private void GenerateClasses(List<DefectInfo> defectList)
-    {
-		for (int i = 0; i < NumberOfClasses; i++)
+		if(MockValues)
 		{
-			Classes.Add((Instantiate(ClassPrefab, Random.insideUnitSphere * 250f, Quaternion.identity) as GameObject).GetComponent<ClassControl>());
-			Classes[Classes.Count -1].ClassGen = this;
-			Classes[Classes.Count -1].gameObject.transform.parent = transform;
-            Classes[Classes.Count -1].ClassName = i.ToString();
-            Classes[Classes.Count -1].gameObject.name = "Class #" + i.ToString();
-		}
-
-		foreach (ClassControl cc in Classes)
-		{
-			foreach (ClassControl cd in Classes)
+			for (int i = 0; i < NumberOfClasses; i++)
 			{
-				if(cd != cc && DependancyFactor < Random.value * 100 + DependencyHubFactor * cc.ClassDependancies.Count - Mathf.Pow(cc.ClassDependancies.Count, 1.5f))
+				ClassControl cc = (Instantiate(ClassPrefab, Random.insideUnitSphere * 250f, Quaternion.identity) as GameObject).GetComponent<ClassControl>();
+				Classes.Add(cc);
+				cc.ClassGen = this;
+				cc.gameObject.transform.parent = transform;
+			    cc.ClassName = i.ToString();
+			    cc.gameObject.name = "Class #" + i.ToString();
+			}
+			
+			foreach (ClassControl cc in Classes)
+			{
+				foreach (ClassControl cd in Classes)
 				{
-					cc.ClassDependancies.Add(new ClassControl.ClassHookup(cd, Random.Range(0.1f, 1f)));
+					if(cd != cc && DependancyFactor < Random.value * 100 + 4 * cc.ClassDependancies.Count - Mathf.Pow(cc.ClassDependancies.Count, 1.5f))
+					{
+						cc.ClassDependancies.Add(new ClassControl.ClassHookup(cd, Random.Range(0.1f, 1f)));
+					}
+					MaxNumberOfDependancies = Mathf.Max(MaxNumberOfDependancies, cc.ClassDependancies.Count);
 				}
-				MaxNumberOfDependancies = Mathf.Max(MaxNumberOfDependancies, cc.ClassDependancies.Count);
 			}
 		}
-		
+		else
+		{
+			Debug.Log("F");
+			Debug.Log(dependencyScores.Count);
+			foreach(string className in dependencyScores.Keys)
+			{
+				ClassControl cc = (Instantiate(ClassPrefab, Random.insideUnitSphere * 250f, Quaternion.identity) as GameObject).GetComponent<ClassControl>();
+				Classes.Add(cc);
+				cc.ClassGen = this;
+				cc.gameObject.transform.parent = transform;
+			    cc.ClassName = className;
+			    cc.gameObject.name = className;
+				cc.SewageLevel = defectScores[className];
+			}
+		}
 	}
-	
-	public IEnumerable<ClassControl> GetDepenendants	(ClassControl cc)
+
+	public IEnumerable<ClassControl> GetDependents(ClassControl cc)
 	{
 		
 		foreach(ClassControl otherCC in Classes)
@@ -98,6 +84,5 @@ public class ClassGenerator : MonoBehaviour
 			}
 		}
 	}
-		
     #endregion
 }

@@ -1,12 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Particle Scripts\ClassControl.cs">
-    <Files>
-      <File FileName="Assets\Particle Scripts\ClassControl.cs" Line="58" Column="43" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\Alex\Documents\InspecteurSanitaire\Assets\Code\ClassGenerator.cs" line="63" />
+      <Breakpoint file="C:\Users\Alex\Documents\InspecteurSanitaire\Assets\Code\XMLParser.cs" line="83" />
+      <Breakpoint file="C:\Users\Alex\Documents\InspecteurSanitaire\Assets\Code\XMLParser.cs" line="89" />
+      <Breakpoint file="C:\Users\Alex\Documents\InspecteurSanitaire\Assets\Code\XMLParser.cs" line="66" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

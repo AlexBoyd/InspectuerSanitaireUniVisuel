@@ -7,20 +7,25 @@ using System.Xml;
 using System.IO;
 using System.Text;
 
-public class XMLParser : MonoBehaviour
+public class XMLParser : Singleton<XMLParser>
 {
-    public Action<List<DefectInfo>> DefectListPopulated;
+	public Action<Dictionary<string, Dictionary<string, int>>, Dictionary<string, int>> ParseComplete;
+
+    [SerializeField]private GendarmeController m_GendarmeController = null;
+
 	public int lowSevValue = 1;
 	public int medSevValue = 2;
 	public int highSevValue = 3;
 	public int critSevValue = 4;
 
 	#region Private Members
-    private List<DefectInfo> mListOfDefects = new List<DefectInfo>();
+    private Dictionary<String, int> defectDict = new Dictionary<String, int>();
 	private Dictionary<String, Dictionary<String, int>> dependencyDict = new Dictionary<String, Dictionary<String, int>>();
 
     private const string kTargetXmlElement = "target";
-    private const string kDefectXmlAttribute = "defect";
+	private const string kNameElement = "Name";
+    private const string kDefectXmlElement = "defect";
+	private const string kRuleXmlElement = "rule";
 	private const string kDepRuleXmlElement = "dependency_rule";
 	private const string kDependencyXmlElement = "dependency";
 	private const string kDependencyTargetXmlAttrib = "DependencyTarget";
@@ -28,178 +33,99 @@ public class XMLParser : MonoBehaviour
 	
     #endregion
 
-    #region Public Properties
-    public IEnumerable<DefectInfo> LowSeverityDefects
-    {
-        get
-        {
-            foreach (DefectInfo def in mListOfDefects)
-            {
-                if (def.Severity == GendarmeController.SeverityLevel.Low)
-                {
-                    yield return def;
-                }
-            }
-        }
-    }
-
-    public IEnumerable<DefectInfo> MediumSeverityDefects
-    {
-        get
-        {
-            foreach (DefectInfo def in mListOfDefects)
-            {
-                if (def.Severity == GendarmeController.SeverityLevel.Medium)
-                {
-                    yield return def;
-                }
-            }
-        }
-    }
-
-    public IEnumerable<DefectInfo> HighSeverityDefects
-    {
-        get
-        {
-            foreach (DefectInfo def in mListOfDefects)
-            {
-                if (def.Severity == GendarmeController.SeverityLevel.High)
-                {
-                    yield return def;
-                }
-            }
-        }
-    }
-
-    public IEnumerable<DefectInfo> CriticalSeverityDefects
-    {
-        get
-        {
-            foreach (DefectInfo def in mListOfDefects)
-            {
-                if (def.Severity == GendarmeController.SeverityLevel.Critical)
-                {
-                    yield return def;
-                }
-            }
-        }
-    }
-
-    private List<DefectInfo> ListOfDefects
-    {
-        get { return mListOfDefects; }
-    }
-    #endregion
-
-    #region Singleton stuff
-    private static XMLParser mInstance;
-    public static XMLParser Instance
-    {
-        get
-        {
-            if (mInstance == null)
-            {
-                Debug.LogWarning(string.Format("No {0} singleton exists! Creating new one.", typeof(XMLParser).Name));
-                GameObject owner = new GameObject("XMLParser");
-                mInstance = owner.AddComponent<XMLParser>();
-            }
-            return mInstance;
-        }
-    }
-    #endregion
-
     #region Component Methods
-    private void Awake()
+    private void Start()
     {
-        if (mInstance != null && mInstance != this)
+        if (m_GendarmeController != null)
         {
-            Destroy(gameObject);
+            Parse(m_GendarmeController.ResultsXmlFullPath);
         }
-
-        mInstance = this;
-
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private void OnEnable()
-    {
-        PopulateDefectList(GendarmeController.Instance.ResultsXmlFullPath);
+        else
+        {
+            Debug.LogError("Missing GendarmeController reference on XMLParser!", this);
+        }
     }
     #endregion
 
     #region Public Methods
     // parses the given xml file
-    // gets the name of the target class and the severity of the defect
-    // creates a DefectInfo object for each name and severity pair
-    // puts each DefectInfo object in the list of DefectInfo objects
-    public void PopulateDefectList(string filename)
+    // gets the name of the target class and the severity of the defects 
+    // 
+    public void Parse(string filename)
     {
         XmlReader reader = XmlReader.Create(filename);
         if (reader != null)
         {
-            while (reader.ReadToFollowing(kTargetXmlElement))
-            {
-                reader.MoveToFirstAttribute();
-                string name = reader.Value;
-
-                reader.ReadToFollowing(kDefectXmlAttribute);
-                reader.MoveToFirstAttribute();
-                GendarmeController.SeverityLevel severity = StringToSeverityLevel(reader.Value);
-
-                mListOfDefects.Add(new DefectInfo(name, severity));
-            }
-            reader.Close();
-
-            if (DefectListPopulated != null)
-            {
-                DefectListPopulated(mListOfDefects);
-            }
-        }
-        else
-        {
-            Debug.LogError(string.Format("Unable to read file {0}", filename), this);
-        }
-    }
-	
-	public void PopulateDependencyList(string filename)
-	{
-	XmlReader reader = XmlReader.Create(filename);
-		if (reader != null)
-		{
-			reader.ReadToFollowing(kDepRuleXmlElement);
-			while (reader.ReadToFollowing(kTargetXmlElement))	
+			while (reader.ReadToFollowing(kRuleXmlElement))
 			{
-				reader.MoveToFirstAttribute();
-                string targetName = reader.Value;
-				
-				while(reader.ReadToFollowing(kDependencyXmlElement))
+				bool isDone = false;
+				reader.ReadToDescendant(kTargetXmlElement);
+	            while (!isDone)
+	            {
+					Debug.Log("D");	
+	                reader.MoveToAttribute(kNameElement);
+					
+	                string name = reader.Value;
+	
+	                reader.ReadToFollowing(kDefectXmlElement);
+	                reader.MoveToAttribute(kSeverityXmlAttrib);
+	                if(defectDict.ContainsKey(name))
+					{
+						defectDict[name] += StringToSeverityLevel(reader.Value);
+					}
+					else
+					{
+						defectDict.Add(name, StringToSeverityLevel(reader.Value));
+					}
+					isDone = !reader.ReadToNextSibling(kTargetXmlElement);
+	            }
+			}
+			reader.Close();
+		}
+	    reader = XmlReader.Create(filename);
+        if (reader != null)
+        {
+			reader.ReadToFollowing(kDepRuleXmlElement);
+			while (reader.ReadToNextSibling(kDepRuleXmlElement))
+			{
+				reader.ReadToFollowing(kTargetXmlElement);
+				while(reader.ReadToNextSibling(kTargetXmlElement))
 				{
-					reader.MoveToAttribute(kDependencyTargetXmlAttrib);
-					string dependencyTargetName = reader.Value;
-					if (dependencyTargetName.Substring(0,4) != "Unity" && dependencyTargetName.Substring(0,5) != "System") {
-						reader.MoveToAttribute(kSeverityXmlAttrib);
-						string severity = reader.Value;
+					reader.MoveToAttribute(kNameElement);
+                	string targetName = reader.Value;
+					reader.ReadToFollowing(kDepRuleXmlElement);
+					while(reader.ReadToNextSibling(kDependencyXmlElement))
+					{
 						
-						int severityInt = StringToSeverityLevel(severity);
-						if (!dependencyDict.ContainsKey(targetName))
+						reader.MoveToAttribute(kDependencyTargetXmlAttrib);
+						string dependencyTargetName = reader.Value;
+						if (!dependencyTargetName.Contains("UnityEngine.") && !dependencyTargetName.Contains("System."))
 						{
-							dependencyDict.Add(targetName, new Dictionary<String, int>());
-						}
-						
-						if (dependencyDict[targetName].ContainsKey(dependencyTargetName))
-						{
-							dependencyDict[targetName][dependencyTargetName] += severityInt;
-						}
-						else
-						{
-							dependencyDict[targetName].Add(dependencyTargetName, severityInt);
+							reader.MoveToAttribute(kSeverityXmlAttrib);
+							string severity = reader.Value;
+							
+							int severityInt = StringToSeverityLevel(severity);
+							if (!dependencyDict.ContainsKey(targetName))
+							{
+								dependencyDict.Add(targetName, new Dictionary<String, int>());
+							}
+							
+							if (dependencyDict[targetName].ContainsKey(dependencyTargetName))
+							{
+								dependencyDict[targetName][dependencyTargetName] += severityInt;
+							}
+							else
+							{
+								dependencyDict[targetName].Add(dependencyTargetName, severityInt);
+							}
 						}
 					}
 				}
 			}
-			reader.Close();
-		}
-		else
+            reader.Close();
+			ParseComplete(dependencyDict, defectDict);
+        }
+        else
         {
             Debug.LogError(string.Format("Unable to read file {0}", filename), this);
         }
@@ -221,7 +147,7 @@ public class XMLParser : MonoBehaviour
             case "Critical":
                 return critSevValue;
 			case "Audit":
-				return 0;		
+				return 0;
             default:
                 Debug.Log(string.Format("Can't convert {0} string to a SeverityLevel. Returning GendarmeController.SeverityLevel.All", str), this);
                 return 0;

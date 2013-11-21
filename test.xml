@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<gendarme-output date="11/21/2013 04:41:39">
+<gendarme-output date="11/21/2013 07:33:30">
   <files>
     <file Name="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">C:\Users\Alex\Documents\InspecteurSanitaire\pandamonium\Library\ScriptAssemblies\Assembly-CSharp.dll</file>
   </files>
@@ -7361,301 +7361,387 @@
     <dependency_rule Name="DependencyTypeRule" Uri="https://github.com/spouliot/gendarme/wiki/Unity.Rules.Performance.DependencyTypeRule(2.10)">
       <problem>Dependancy from a Reference to another class within a  type defition</problem>
       <solution>Do some stuff</solution>
+      <target Name="&lt;Module&gt;" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="&lt;Module&gt;" DependancyTarget="&lt;Module&gt;" Source=""></dependency>
+      </target>
       <target Name="Back" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Back" DependancyTarget="Back" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Back" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="BeginJourney" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="BeginJourney" DependancyTarget="BeginJourney" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="BeginJourney" DependancyTarget="Touchable" Source=""></dependency>
       </target>
       <target Name="CenterOnSpawn" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="CenterOnSpawn" DependancyTarget="CenterOnSpawn" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="CenterOnSpawn" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Credits" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Credits" DependancyTarget="Credits" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Credits" DependancyTarget="Touchable" Source=""></dependency>
       </target>
       <target Name="InputManager" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="InputManager" DependancyTarget="InputManager" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="InputManager" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="ResumeJourney" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="ResumeJourney" DependancyTarget="ResumeJourney" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="ResumeJourney" DependancyTarget="Touchable" Source=""></dependency>
       </target>
       <target Name="SaveSlot" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="SaveSlot" DependancyTarget="SaveSlot" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="SaveSlot" DependancyTarget="Touchable" Source=""></dependency>
       </target>
       <target Name="Touchable" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Touchable" DependancyTarget="Touchable" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Touchable" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="IntroAdvancer" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="IntroAdvancer" DependancyTarget="IntroAdvancer" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="IntroAdvancer" DependancyTarget="Touchable" Source=""></dependency>
       </target>
       <target Name="IntroAdvancer/&lt;PlayFrames&gt;c__Iterator0" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="IntroAdvancer/&lt;PlayFrames&gt;c__Iterator0" DependancyTarget="IntroAdvancer/&lt;PlayFrames&gt;c__Iterator0" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="IntroAdvancer/&lt;PlayFrames&gt;c__Iterator0" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="IntroAdvancer/&lt;PlayFrames&gt;c__Iterator0" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="IntroAdvancer/&lt;PlayFrames&gt;c__Iterator0" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="IntroAdvancer/&lt;PlayFrames&gt;c__Iterator0" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="IntroCamera" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="IntroCamera" DependancyTarget="IntroCamera" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="IntroCamera" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="SkipButton" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="SkipButton" DependancyTarget="SkipButton" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="SkipButton" DependancyTarget="Touchable" Source=""></dependency>
       </target>
       <target Name="Spawn" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Spawn" DependancyTarget="Spawn" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Spawn" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="BadgerBoss" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="BadgerBoss" DependancyTarget="BadgerBoss" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="BadgerBoss" DependancyTarget="Triggerable" Source=""></dependency>
       </target>
       <target Name="JumpTrigger" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="JumpTrigger" DependancyTarget="JumpTrigger" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="JumpTrigger" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="MoveBadger" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="MoveBadger" DependancyTarget="MoveBadger" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="MoveBadger" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="final_boss" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="final_boss" DependancyTarget="final_boss" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="final_boss" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="LavaMonster" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="LavaMonster" DependancyTarget="LavaMonster" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="LavaMonster" DependancyTarget="Triggerable" Source=""></dependency>
       </target>
       <target Name="LavaMonster/&lt;skeletonSpawnCoroutine&gt;c__Iterator1" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="LavaMonster/&lt;skeletonSpawnCoroutine&gt;c__Iterator1" DependancyTarget="LavaMonster/&lt;skeletonSpawnCoroutine&gt;c__Iterator1" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="LavaMonster/&lt;skeletonSpawnCoroutine&gt;c__Iterator1" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="LavaMonster/&lt;skeletonSpawnCoroutine&gt;c__Iterator1" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="LavaMonster/&lt;skeletonSpawnCoroutine&gt;c__Iterator1" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="LavaMonster/&lt;skeletonSpawnCoroutine&gt;c__Iterator1" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="Skeleton" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Skeleton" DependancyTarget="Skeleton" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Skeleton" DependancyTarget="Triggerable" Source=""></dependency>
       </target>
       <target Name="Skeleton/&lt;skeletonDeathCoroutine&gt;c__Iterator2" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Skeleton/&lt;skeletonDeathCoroutine&gt;c__Iterator2" DependancyTarget="Skeleton/&lt;skeletonDeathCoroutine&gt;c__Iterator2" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Skeleton/&lt;skeletonDeathCoroutine&gt;c__Iterator2" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Skeleton/&lt;skeletonDeathCoroutine&gt;c__Iterator2" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Skeleton/&lt;skeletonDeathCoroutine&gt;c__Iterator2" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Skeleton/&lt;skeletonDeathCoroutine&gt;c__Iterator2" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="Skeleton/&lt;skeletonSpawnCoroutine&gt;c__Iterator3" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Skeleton/&lt;skeletonSpawnCoroutine&gt;c__Iterator3" DependancyTarget="Skeleton/&lt;skeletonSpawnCoroutine&gt;c__Iterator3" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Skeleton/&lt;skeletonSpawnCoroutine&gt;c__Iterator3" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Skeleton/&lt;skeletonSpawnCoroutine&gt;c__Iterator3" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Skeleton/&lt;skeletonSpawnCoroutine&gt;c__Iterator3" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Skeleton/&lt;skeletonSpawnCoroutine&gt;c__Iterator3" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="MoveSpider" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="MoveSpider" DependancyTarget="MoveSpider" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="MoveSpider" DependancyTarget="Triggerable" Source=""></dependency>
       </target>
       <target Name="WormBoss" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="WormBoss" DependancyTarget="WormBoss" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="WormBoss" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="WormBossAnimation" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="WormBossAnimation" DependancyTarget="WormBossAnimation" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="WormBossAnimation" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Checkpoint" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Checkpoint" DependancyTarget="Checkpoint" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Checkpoint" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Coin" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Coin" DependancyTarget="Coin" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Coin" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="CoinContainer" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="CoinContainer" DependancyTarget="CoinContainer" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="CoinContainer" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="CubeBehavior" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="CubeBehavior" DependancyTarget="CubeBehavior" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="CubeBehavior" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="DebugSpawner" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="DebugSpawner" DependancyTarget="DebugSpawner" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="DebugSpawner" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="DebugSpawner/&lt;debugSpawner&gt;c__Iterator4" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="DebugSpawner/&lt;debugSpawner&gt;c__Iterator4" DependancyTarget="DebugSpawner/&lt;debugSpawner&gt;c__Iterator4" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="DebugSpawner/&lt;debugSpawner&gt;c__Iterator4" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="DebugSpawner/&lt;debugSpawner&gt;c__Iterator4" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="DebugSpawner/&lt;debugSpawner&gt;c__Iterator4" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="DebugSpawner/&lt;debugSpawner&gt;c__Iterator4" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="DirtboxSwitcher" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="DirtboxSwitcher" DependancyTarget="DirtboxSwitcher" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="DirtboxSwitcher" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="ElevatorButton" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="ElevatorButton" DependancyTarget="ElevatorButton" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="ElevatorButton" DependancyTarget="Touchable" Source=""></dependency>
       </target>
       <target Name="ElevatorCheckpoint" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="ElevatorCheckpoint" DependancyTarget="ElevatorCheckpoint" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="ElevatorCheckpoint" DependancyTarget="Checkpoint" Source=""></dependency>
       </target>
       <target Name="ElevatorGUI" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="ElevatorGUI" DependancyTarget="ElevatorGUI" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="ElevatorGUI" DependancyTarget="Triggerable" Source=""></dependency>
       </target>
       <target Name="ForegroundSwitcher" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="ForegroundSwitcher" DependancyTarget="ForegroundSwitcher" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="ForegroundSwitcher" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Heart" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Heart" DependancyTarget="Heart" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Heart" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="HeartPieceGUI" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="HeartPieceGUI" DependancyTarget="HeartPieceGUI" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="HeartPieceGUI" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Hint" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Hint" DependancyTarget="Hint" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Hint" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Hint/&lt;disableHintCoroutine&gt;c__Iterator5" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Hint/&lt;disableHintCoroutine&gt;c__Iterator5" DependancyTarget="Hint/&lt;disableHintCoroutine&gt;c__Iterator5" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Hint/&lt;disableHintCoroutine&gt;c__Iterator5" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Hint/&lt;disableHintCoroutine&gt;c__Iterator5" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Hint/&lt;disableHintCoroutine&gt;c__Iterator5" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Hint/&lt;disableHintCoroutine&gt;c__Iterator5" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="Key" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Key" DependancyTarget="Key" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Key" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="KeyContainer" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="KeyContainer" DependancyTarget="KeyContainer" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="KeyContainer" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="LevelRoot" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="LevelRoot" DependancyTarget="LevelRoot" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="LevelRoot" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="LoadLevelTrigger" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="LoadLevelTrigger" DependancyTarget="LoadLevelTrigger" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="LoadLevelTrigger" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="PauseMenu" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="PauseMenu" DependancyTarget="PauseMenu" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="PauseMenu" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="ResetButton" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="ResetButton" DependancyTarget="ResetButton" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="ResetButton" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Tiler" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Tiler" DependancyTarget="Tiler" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Tiler" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="ToxicBarrelThrow" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="ToxicBarrelThrow" DependancyTarget="ToxicBarrelThrow" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="ToxicBarrelThrow" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Triggerable" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Triggerable" DependancyTarget="Triggerable" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Triggerable" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="TutorialTip" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="TutorialTip" DependancyTarget="TutorialTip" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="TutorialTip" DependancyTarget="Triggerable" Source=""></dependency>
       </target>
       <target Name="UnloadLevelTrigger" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="UnloadLevelTrigger" DependancyTarget="UnloadLevelTrigger" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="UnloadLevelTrigger" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="ExtensionMethods" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="ExtensionMethods" DependancyTarget="ExtensionMethods" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="ExtensionMethods" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="FadeOutOnCollision" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="FadeOutOnCollision" DependancyTarget="FadeOutOnCollision" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="FadeOutOnCollision" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="FadeOutOnCollision/&lt;FadeCoroutine&gt;c__Iterator6" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="FadeOutOnCollision/&lt;FadeCoroutine&gt;c__Iterator6" DependancyTarget="FadeOutOnCollision/&lt;FadeCoroutine&gt;c__Iterator6" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="FadeOutOnCollision/&lt;FadeCoroutine&gt;c__Iterator6" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="FadeOutOnCollision/&lt;FadeCoroutine&gt;c__Iterator6" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="FadeOutOnCollision/&lt;FadeCoroutine&gt;c__Iterator6" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="FadeOutOnCollision/&lt;FadeCoroutine&gt;c__Iterator6" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="FallingSpike" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="FallingSpike" DependancyTarget="FallingSpike" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="FallingSpike" DependancyTarget="Triggerable" Source=""></dependency>
       </target>
       <target Name="MovingPlatform" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="MovingPlatform" DependancyTarget="MovingPlatform" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="MovingPlatform" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="RelocateMovingPlatform" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="RelocateMovingPlatform" DependancyTarget="RelocateMovingPlatform" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="RelocateMovingPlatform" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="TrapDoor" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="TrapDoor" DependancyTarget="TrapDoor" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="TrapDoor" DependancyTarget="Triggerable" Source=""></dependency>
       </target>
       <target Name="TrapDoor/&lt;FadeCoutine&gt;c__Iterator7" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="TrapDoor/&lt;FadeCoutine&gt;c__Iterator7" DependancyTarget="TrapDoor/&lt;FadeCoutine&gt;c__Iterator7" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="TrapDoor/&lt;FadeCoutine&gt;c__Iterator7" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="TrapDoor/&lt;FadeCoutine&gt;c__Iterator7" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="TrapDoor/&lt;FadeCoutine&gt;c__Iterator7" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="TrapDoor/&lt;FadeCoutine&gt;c__Iterator7" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="TrapDoor/&lt;RespawnCoroutine&gt;c__Iterator8" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="TrapDoor/&lt;RespawnCoroutine&gt;c__Iterator8" DependancyTarget="TrapDoor/&lt;RespawnCoroutine&gt;c__Iterator8" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="TrapDoor/&lt;RespawnCoroutine&gt;c__Iterator8" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="TrapDoor/&lt;RespawnCoroutine&gt;c__Iterator8" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="TrapDoor/&lt;RespawnCoroutine&gt;c__Iterator8" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="TrapDoor/&lt;RespawnCoroutine&gt;c__Iterator8" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="PressurePad" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="PressurePad" DependancyTarget="PressurePad" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="PressurePad" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="ProximityTrigger" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="ProximityTrigger" DependancyTarget="ProximityTrigger" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="ProximityTrigger" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="SpikeTrigger" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="SpikeTrigger" DependancyTarget="SpikeTrigger" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="SpikeTrigger" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="AbilityManager" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="AbilityManager" DependancyTarget="AbilityManager" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="AbilityManager" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Anger" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Anger" DependancyTarget="Anger" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Anger" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Anger/&lt;disableTimer&gt;c__Iterator9" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Anger/&lt;disableTimer&gt;c__Iterator9" DependancyTarget="Anger/&lt;disableTimer&gt;c__Iterator9" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Anger/&lt;disableTimer&gt;c__Iterator9" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Anger/&lt;disableTimer&gt;c__Iterator9" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Anger/&lt;disableTimer&gt;c__Iterator9" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Anger/&lt;disableTimer&gt;c__Iterator9" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="CameraFollow" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="CameraFollow" DependancyTarget="CameraFollow" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="CameraFollow" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="CloudMovement" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="CloudMovement" DependancyTarget="CloudMovement" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="CloudMovement" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="CollectCoin" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="CollectCoin" DependancyTarget="CollectCoin" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="CollectCoin" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Courage" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Courage" DependancyTarget="Courage" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Courage" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Courage/&lt;disableTimer&gt;c__IteratorA" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Courage/&lt;disableTimer&gt;c__IteratorA" DependancyTarget="Courage/&lt;disableTimer&gt;c__IteratorA" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Courage/&lt;disableTimer&gt;c__IteratorA" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Courage/&lt;disableTimer&gt;c__IteratorA" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Courage/&lt;disableTimer&gt;c__IteratorA" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Courage/&lt;disableTimer&gt;c__IteratorA" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="Death" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Death" DependancyTarget="Death" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Death" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Happy" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Happy" DependancyTarget="Happy" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Happy" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Happy/&lt;cloudTimer&gt;c__IteratorB" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Happy/&lt;cloudTimer&gt;c__IteratorB" DependancyTarget="Happy/&lt;cloudTimer&gt;c__IteratorB" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Happy/&lt;cloudTimer&gt;c__IteratorB" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Happy/&lt;cloudTimer&gt;c__IteratorB" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Happy/&lt;cloudTimer&gt;c__IteratorB" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Happy/&lt;cloudTimer&gt;c__IteratorB" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="Happy/&lt;disableTimer&gt;c__IteratorC" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Happy/&lt;disableTimer&gt;c__IteratorC" DependancyTarget="Happy/&lt;disableTimer&gt;c__IteratorC" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Happy/&lt;disableTimer&gt;c__IteratorC" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Happy/&lt;disableTimer&gt;c__IteratorC" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Happy/&lt;disableTimer&gt;c__IteratorC" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Happy/&lt;disableTimer&gt;c__IteratorC" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="IsGrounded" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="IsGrounded" DependancyTarget="IsGrounded" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="IsGrounded" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Move" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Move" DependancyTarget="Move" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Move" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Loading" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Loading" DependancyTarget="Loading" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Loading" DependancyTarget="UnityEngine.MonoBehaviour" Source=""></dependency>
       </target>
       <target Name="Loading/&lt;loadCoRoutine&gt;c__IteratorD" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Loading/&lt;loadCoRoutine&gt;c__IteratorD" DependancyTarget="Loading/&lt;loadCoRoutine&gt;c__IteratorD" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Loading/&lt;loadCoRoutine&gt;c__IteratorD" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Loading/&lt;loadCoRoutine&gt;c__IteratorD" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Loading/&lt;loadCoRoutine&gt;c__IteratorD" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Loading/&lt;loadCoRoutine&gt;c__IteratorD" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="Loading/&lt;LoadElevatorCoroutine&gt;c__IteratorE" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="Loading/&lt;LoadElevatorCoroutine&gt;c__IteratorE" DependancyTarget="Loading/&lt;LoadElevatorCoroutine&gt;c__IteratorE" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="Loading/&lt;LoadElevatorCoroutine&gt;c__IteratorE" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Loading/&lt;LoadElevatorCoroutine&gt;c__IteratorE" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Loading/&lt;LoadElevatorCoroutine&gt;c__IteratorE" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="Loading/&lt;LoadElevatorCoroutine&gt;c__IteratorE" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="LevelManager" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="LevelManager" DependancyTarget="LevelManager" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="LevelManager" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="LevelManager/&lt;LoadCheckpointCoroutine&gt;c__IteratorF" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="LevelManager/&lt;LoadCheckpointCoroutine&gt;c__IteratorF" DependancyTarget="LevelManager/&lt;LoadCheckpointCoroutine&gt;c__IteratorF" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="LevelManager/&lt;LoadCheckpointCoroutine&gt;c__IteratorF" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="LevelManager/&lt;LoadCheckpointCoroutine&gt;c__IteratorF" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="LevelManager/&lt;LoadCheckpointCoroutine&gt;c__IteratorF" DependancyTarget="System.Object" Source=""></dependency>
         <dependency Severity="High" Confidence="Total" Location="LevelManager/&lt;LoadCheckpointCoroutine&gt;c__IteratorF" DependancyTarget="System.Object" Source=""></dependency>
       </target>
       <target Name="SaveManager" Assembly="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <dependency Severity="Audit" Confidence="Total" Location="SaveManager" DependancyTarget="SaveManager" Source=""></dependency>
         <dependency Severity="Critical" Confidence="Total" Location="SaveManager" DependancyTarget="System.Object" Source=""></dependency>
       </target>
     </dependency_rule>
