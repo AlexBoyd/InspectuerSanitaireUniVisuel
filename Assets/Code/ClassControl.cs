@@ -167,11 +167,55 @@ public class ClassControl : MonoBehaviour
         }
     }
 
+    public void ChangeDependentsParticleColor(Color newColor)
+    {
+        foreach (ClassControl cc in ClassGenerator.Instance.GetDependents(this))
+        {
+            ClassHookup ch = cc.ClassDependancies.Find(obj => obj.AttachedClass == this);
+            if (ch != null)
+            {
+                ParticleSystem.Particle[] particles = new ParticleSystem.Particle[ch.FlowParticles.particleSystem.particleCount];
+                int numParticles = ch.FlowParticles.particleSystem.GetParticles(particles);
+
+                for (int i=0; i < numParticles; i++)
+                {
+                    particles[i].color = newColor;
+                }
+
+                ch.FlowParticles.particleSystem.SetParticles(particles, numParticles);
+                ch.FlowParticles.particleSystem.startColor = newColor;
+            }
+        }
+    }
+
     public void RevertColorsToBase()
     {
         ChangeInnerParticleColor(BaseInnerParticleColor);
         ChangeDependencyParticleColor(BaseDependencyParticleColor);
+        RevertDependentsParticleColor();
     }
+
+    public void RevertDependentsParticleColor()
+    {
+        foreach (ClassControl cc in ClassGenerator.Instance.GetDependents(this))
+        {
+            ClassHookup ch = cc.ClassDependancies.Find(obj => obj.AttachedClass == this);
+            if (ch != null)
+            {
+                ParticleSystem.Particle[] particles = new ParticleSystem.Particle[ch.FlowParticles.particleSystem.particleCount];
+                int numParticles = ch.FlowParticles.particleSystem.GetParticles(particles);
+
+                for (int i=0; i < numParticles; i++)
+                {
+                    particles[i].color = BaseDependencyParticleColor;
+                }
+
+                ch.FlowParticles.particleSystem.SetParticles(particles, numParticles);
+                ch.FlowParticles.particleSystem.startColor = BaseDependencyParticleColor;
+            }
+        }
+    }
+
     #endregion
 
     #region Helper Methods

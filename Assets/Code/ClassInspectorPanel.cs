@@ -19,7 +19,8 @@ public class ClassInspectorPanel : Singleton<ClassInspectorPanel>
     #region Tunables
     [SerializeField]private int m_PanelWidth = 200;
     [SerializeField]private int m_PanelHeight = 400;
-    public Color SelectedClassParticleColor = Color.blue;
+    public Color SelectedClassDependenciesParticleColor = Color.blue;
+    public Color SelectedClassDependentsParticleColor = Color.magenta;
     public bool ShowAtMousePosition = false;
     public bool KeepVisible = false;
     public ScreenAlignment PanelAlignment = ScreenAlignment.TopRight;
@@ -177,8 +178,9 @@ public class ClassInspectorPanel : Singleton<ClassInspectorPanel>
     {
         if (SelectedClass != null)
         {
-            SelectedClass.ChangeInnerParticleColor(SelectedClassParticleColor);
-            SelectedClass.ChangeDependencyParticleColor(SelectedClassParticleColor);
+            SelectedClass.ChangeInnerParticleColor(SelectedClassDependenciesParticleColor);
+            SelectedClass.ChangeDependencyParticleColor(SelectedClassDependenciesParticleColor);
+            SelectedClass.ChangeDependentsParticleColor(SelectedClassDependentsParticleColor);
         }
     }
     #endregion

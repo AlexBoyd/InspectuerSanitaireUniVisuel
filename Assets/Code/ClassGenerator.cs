@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class ClassGenerator : MonoBehaviour
+public class ClassGenerator : Singleton<ClassGenerator>
 {
     #region Tunables
 	public GameObject ClassPrefab;
@@ -22,38 +22,9 @@ public class ClassGenerator : MonoBehaviour
 	public List<ClassControl> Classes;
     #endregion
 
-    #region Singleton stuff
-    private static ClassGenerator mInstance;
-    public static ClassGenerator Instance
-    {
-        get
-        {
-            if (mInstance == null)
-            {
-                Debug.LogWarning(string.Format("No {0} singleton exists! Creating new one.", typeof(ClassGenerator).Name));
-                GameObject owner = new GameObject("Classes");
-                mInstance = owner.AddComponent<ClassGenerator>();
-            }
-            return mInstance;				
-        }
-    }
-    #endregion
-
     #region Component Methods
 	private void Awake()
 	{
-        if (mInstance != null && mInstance != this)
-        {
-            Destroy(gameObject);
-        }
-
-        mInstance = this;
-
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
         XMLParser.Instance.DefectListPopulated += GenerateClasses;
     }
 
@@ -81,8 +52,8 @@ public class ClassGenerator : MonoBehaviour
 		}
 		
 	}
-	
-	public IEnumerable<ClassControl> GetDepenendants(ClassControl cc)
+
+	public IEnumerable<ClassControl> GetDependents(ClassControl cc)
 	{
 		
 		foreach(ClassControl otherCC in Classes)
@@ -93,6 +64,5 @@ public class ClassGenerator : MonoBehaviour
 			}
 		}
 	}
-		
     #endregion
 }
