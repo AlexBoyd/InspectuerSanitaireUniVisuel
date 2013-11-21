@@ -19,6 +19,16 @@ public class CameraControl : MonoBehaviour
 		}
 		transform.RotateAround(Vector3.zero, Vector3.up, Input.GetAxis("Horizontal") * RotationSpeed);
 
+        if (Input.GetMouseButton(0))
+        {
+            transform.RotateAround(Vector3.zero, Vector3.up, Input.GetAxis("Mouse X") * RotationSpeed);
+        }
+
+        if (Input.GetMouseButton(1))
+        {
+            transform.RotateAround(Vector3.zero, Vector3.up, Input.GetAxis("Mouse Y") * RotationSpeed);
+        }
+
 		if(Input.GetButton("Jump"))
 		{
 			Camera.main.orthographic =! Camera.main.orthographic;
