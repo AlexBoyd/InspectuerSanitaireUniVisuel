@@ -1,25 +1,27 @@
 using UnityEngine;
 using System.Collections;
 
-public class CameraControl : MonoBehaviour {
-	
+public class CameraControl : MonoBehaviour
+{
+
 	public int ZoomSpeed = 5;
 	public int RotationSpeed = 1;
-	void Update () 
+
+    private void Update()
 	{
-		if(Camera.mainCamera.isOrthoGraphic)
+		if (Camera.main.isOrthoGraphic)
 		{
-			Camera.mainCamera.orthographicSize -= Input.GetAxis("Vertical") * ZoomSpeed;
+			Camera.main.orthographicSize -= Input.GetAxis("Vertical") * ZoomSpeed;
 		}
 		else
 		{
 			transform.position += transform.forward * Input.GetAxis("Vertical") * ZoomSpeed;
 		}
 		transform.RotateAround(Vector3.zero, Vector3.up, Input.GetAxis("Horizontal") * RotationSpeed);
-		
+
 		if(Input.GetButton("Jump"))
 		{
-			Camera.mainCamera.orthographic =! Camera.mainCamera.orthographic;
+			Camera.main.orthographic =! Camera.main.orthographic;
 		}
 	}
 }
