@@ -7,17 +7,25 @@ using System.Xml;
 using System.IO;
 using System.Text;
 
-public class XMLParser : Singleton<XMLParser>
+public class XMLParser : MonoBehaviour
 {
     public Action<List<DefectInfo>> DefectListPopulated;
-
-    [SerializeField]private GendarmeController m_GendarmeController = null;
+	public int lowSevValue = 1;
+	public int medSevValue = 2;
+	public int highSevValue = 3;
+	public int critSevValue = 4;
 
 	#region Private Members
     private List<DefectInfo> mListOfDefects = new List<DefectInfo>();
+	private Dictionary<String, Dictionary<String, int>> dependencyDict = new Dictionary<String, Dictionary<String, int>>();
 
     private const string kTargetXmlElement = "target";
     private const string kDefectXmlAttribute = "defect";
+	private const string kDepRuleXmlElement = "dependency_rule";
+	private const string kDependencyXmlElement = "dependency";
+	private const string kDependencyTargetXmlAttrib = "DependencyTarget";
+	private const string kSeverityXmlAttrib = "Severity";
+	
     #endregion
 
     #region Public Properties
@@ -83,17 +91,39 @@ public class XMLParser : Singleton<XMLParser>
     }
     #endregion
 
-    #region Component Methods
-    private void Start()
+    #region Singleton stuff
+    private static XMLParser mInstance;
+    public static XMLParser Instance
     {
-        if (m_GendarmeController != null)
+        get
         {
-            PopulateDefectList(m_GendarmeController.ResultsXmlFullPath);
+            if (mInstance == null)
+            {
+                Debug.LogWarning(string.Format("No {0} singleton exists! Creating new one.", typeof(XMLParser).Name));
+                GameObject owner = new GameObject("XMLParser");
+                mInstance = owner.AddComponent<XMLParser>();
+            }
+            return mInstance;
         }
-        else
+    }
+    #endregion
+
+    #region Component Methods
+    private void Awake()
+    {
+        if (mInstance != null && mInstance != this)
         {
-            Debug.LogError("Missing GendarmeController reference on XMLParser!", this);
+            Destroy(gameObject);
         }
+
+        mInstance = this;
+
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        PopulateDefectList(GendarmeController.Instance.ResultsXmlFullPath);
     }
     #endregion
 
@@ -130,24 +160,71 @@ public class XMLParser : Singleton<XMLParser>
             Debug.LogError(string.Format("Unable to read file {0}", filename), this);
         }
     }
+	
+	public void PopulateDependencyList(string filename)
+	{
+	XmlReader reader = XmlReader.Create(filename);
+		if (reader != null)
+		{
+			reader.ReadToFollowing(kDepRuleXmlElement);
+			while (reader.ReadToFollowing(kTargetXmlElement))	
+			{
+				reader.MoveToFirstAttribute();
+                string targetName = reader.Value;
+				
+				while(reader.ReadToFollowing(kDependencyXmlElement))
+				{
+					reader.MoveToAttribute(kDependencyTargetXmlAttrib);
+					string dependencyTargetName = reader.Value;
+					if (dependencyTargetName.Substring(0,4) != "Unity" && dependencyTargetName.Substring(0,5) != "System") {
+						reader.MoveToAttribute(kSeverityXmlAttrib);
+						string severity = reader.Value;
+						
+						int severityInt = StringToSeverityLevel(severity);
+						if (!dependencyDict.ContainsKey(targetName))
+						{
+							dependencyDict.Add(targetName, new Dictionary<String, int>());
+						}
+						
+						if (dependencyDict[targetName].ContainsKey(dependencyTargetName))
+						{
+							dependencyDict[targetName][dependencyTargetName] += severityInt;
+						}
+						else
+						{
+							dependencyDict[targetName].Add(dependencyTargetName, severityInt);
+						}
+					}
+				}
+			}
+			reader.Close();
+		}
+		else
+        {
+            Debug.LogError(string.Format("Unable to read file {0}", filename), this);
+        }
+	}
+	
     #endregion
 
     #region Helper Methods
-    private GendarmeController.SeverityLevel StringToSeverityLevel(string str)
+    private int StringToSeverityLevel(string str)
     {
         switch(str)
         {
             case "Low":
-                return GendarmeController.SeverityLevel.Low;
+                return lowSevValue;
             case "Medium":
-                return GendarmeController.SeverityLevel.Medium;
+                return medSevValue;
             case "High":
-                return GendarmeController.SeverityLevel.High;
+                return highSevValue;
             case "Critical":
-                return GendarmeController.SeverityLevel.Critical;
+                return critSevValue;
+			case "Audit":
+				return 0;		
             default:
                 Debug.Log(string.Format("Can't convert {0} string to a SeverityLevel. Returning GendarmeController.SeverityLevel.All", str), this);
-                return GendarmeController.SeverityLevel.All;
+                return 0;
         }
     }
 
