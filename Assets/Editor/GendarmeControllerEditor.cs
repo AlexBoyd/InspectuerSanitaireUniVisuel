@@ -67,11 +67,10 @@ public class GendarmeControllerEditor : Editor
 
         if (GUILayout.Button("Run Gendarme"))
         {
-            string resultsFullPath = myTarget.ResultsDirectory + "\\" + myTarget.ResultsXmlFileName;
             string arguments =
                 " --config " + myTarget.RuleSetsFileName +
                 " --set " + myTarget.RuleSetsToRun +
-				" --xml " + "\"" + resultsFullPath + "\"" +
+				" --xml " + "\"" + myTarget.ResultsXmlFullPath + "\"" +
                 " --severity " + myTarget.Severity.ToString() +
                 " --confidence " + myTarget.Confidence.ToString() +
                 " " + "\"" + myTarget.AssemblyFilePath + "\"";
@@ -89,14 +88,30 @@ public class GendarmeControllerEditor : Editor
         {
             if (Event.current.button == 0)
             {
-                string resultsFullPath = myTarget.ResultsDirectory + "\\" + myTarget.ResultsXmlFileName;
-                if (File.Exists(resultsFullPath))
+                if (File.Exists(myTarget.ResultsXmlFullPath))
                 {
-                    System.Diagnostics.Process.Start("explorer.exe", string.Format("/select, {0}", resultsFullPath));
+                    System.Diagnostics.Process.Start("explorer.exe", string.Format("/select, {0}", myTarget.ResultsXmlFullPath));
                 }
                 else
                 {
                     System.Diagnostics.Process.Start("explorer.exe", string.Format("/select, {0}", myTarget.ResultsDirectory));
+                }
+            }
+        }
+
+        //Reparse the XML file
+        if (GUILayout.Button("Reparse XML file"))
+        {
+            if (Event.current.button == 0)
+            {
+                XMLParser parser = myTarget.GetComponent<XMLParser>();
+                if (parser != null && File.Exists(myTarget.ResultsXmlFullPath))
+                {
+                    parser.PopulateDefectList(myTarget.ResultsXmlFullPath);
+                }
+                else
+                {
+                    Debug.LogError("Missing XMLParser component!");
                 }
             }
         }
