@@ -32,6 +32,8 @@ public class ClassControl : MonoBehaviour
     public Color BaseInnerParticleColor = Color.white;
     public Color BaseDependencyParticleColor = Color.white;
 
+    private bool mShowTooltip = false;
+
     #region Component Methods
 	private void Start()
 	{
@@ -110,6 +112,25 @@ public class ClassControl : MonoBehaviour
 
 	        ch.FlowParticles.particleSystem.SetParticles(particles, length);
 		}
+    }
+
+    private void OnGUI()
+    {
+        if (mShowTooltip)
+        {
+            GUILayout.BeginArea(new Rect(Input.mousePosition.x , Screen.height - Input.mousePosition.y, 150f, 20f), ClassName, "box");
+            GUILayout.EndArea();
+        }
+    }
+
+    private void OnMouseOver()
+    {
+        mShowTooltip = true;
+    }
+
+    private void OnMouseExit()
+    {
+        mShowTooltip = false;
     }
     #endregion
 
