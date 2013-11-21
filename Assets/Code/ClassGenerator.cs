@@ -8,7 +8,12 @@ public class ClassGenerator : MonoBehaviour
     #region Tunables
 	public GameObject ClassPrefab;
 	public int NumberOfClasses = 7;
+	
+	public int ParticleSize = 20f;
+	public int SelectedParticleSize = 50f;
+	
 	public float DependancyFactor = 64;
+	public float DependencyHubFactor = 2;
 	
 	[HideInInspector]
 	public int MaxNumberOfDependancies = 0;
@@ -72,7 +77,7 @@ public class ClassGenerator : MonoBehaviour
 		{
 			foreach (ClassControl cd in Classes)
 			{
-				if(cd != cc && DependancyFactor < Random.value * 100 + 4 * cc.ClassDependancies.Count - Mathf.Pow(cc.ClassDependancies.Count, 1.5f))
+				if(cd != cc && DependancyFactor < Random.value * 100 + DependencyHubFactor * cc.ClassDependancies.Count - Mathf.Pow(cc.ClassDependancies.Count, 1.5f))
 				{
 					cc.ClassDependancies.Add(new ClassControl.ClassHookup(cd, Random.Range(0.1f, 1f)));
 				}
@@ -82,7 +87,7 @@ public class ClassGenerator : MonoBehaviour
 		
 	}
 	
-	public IEnumerable<ClassControl> GetDepenendants(ClassControl cc)
+	public IEnumerable<ClassControl> GetDepenendants	(ClassControl cc)
 	{
 		
 		foreach(ClassControl otherCC in Classes)

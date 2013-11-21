@@ -47,7 +47,6 @@ public class ClassControl : MonoBehaviour
 			ch.FlowParticles.transform.parent = transform;
 			ch.FlowParticles.transform.localPosition = Vector3.zero;
 			ch.FlowParticles.particleSystem.startColor = BaseDependencyParticleColor;
-			ch.FlowParticles.particleSystem.startSize = SewageLevel;
 			ch.FlowParticles.particleSystem.emissionRate = ch.DepedancyValue * 5f;
 		}
 	}
