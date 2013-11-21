@@ -34,7 +34,7 @@ public class ClassGenerator : MonoBehaviour {
 		{
 			foreach(ClassControl cd in Classes)
 			{
-				if(cd != cc && DependancyFactor < Random.value * 100 + (0.5 * cc.ClassDependancies.Count + Mathf.Pow(cc.ClassDependancies.Count, 1.5f)))
+				if(cd != cc && DependancyFactor < Random.value * 100 + 4 * cc.ClassDependancies.Count - Mathf.Pow(cc.ClassDependancies.Count, 1.5f))
 				{
 					cc.ClassDependancies.Add(new ClassControl.ClassHookup(cd, Random.Range(0.1f, 1f)));
 				}

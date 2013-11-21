@@ -46,4 +46,9 @@ public class GendarmeController : MonoBehaviour
     public SeverityLevel Severity = SeverityLevel.All;
     public ConfidenceLevel Confidence = ConfidenceLevel.All;
     #endregion
+
+    public string ResultsXmlFullPath
+    {
+        get { return ResultsDirectory + "\\" + ResultsXmlFileName; }
+    }
 }
