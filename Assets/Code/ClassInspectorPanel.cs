@@ -11,23 +11,6 @@ public class ClassInspectorPanel : MonoBehaviour
     public Color SelectedClassParticleColor = Color.blue;
     #endregion
 
-    #region Singleton stuff
-    private static ClassInspectorPanel mInstance;
-    public static ClassInspectorPanel Instance
-    {
-        get
-        {
-            if (mInstance == null)
-            {
-                Debug.LogWarning(string.Format("No {0} singleton exists! Creating new one.", typeof(ClassInspectorPanel).Name));
-                GameObject owner = new GameObject("ClassInspectorPanel");
-                mInstance = owner.AddComponent<ClassInspectorPanel>();
-            }
-            return mInstance;
-        }
-    }
-    #endregion
-
     #region Private Members
     private ClassControl mSelectedClass = null;
     private bool mShow = false;
@@ -66,6 +49,23 @@ public class ClassInspectorPanel : MonoBehaviour
         {
             mShow = value;
             mPanelPos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+        }
+    }
+    #endregion
+
+    #region Singleton stuff
+    private static ClassInspectorPanel mInstance;
+    public static ClassInspectorPanel Instance
+    {
+        get
+        {
+            if (mInstance == null)
+            {
+                Debug.LogWarning(string.Format("No {0} singleton exists! Creating new one.", typeof(ClassInspectorPanel).Name));
+                GameObject owner = new GameObject("ClassInspectorPanel");
+                mInstance = owner.AddComponent<ClassInspectorPanel>();
+            }
+            return mInstance;
         }
     }
     #endregion

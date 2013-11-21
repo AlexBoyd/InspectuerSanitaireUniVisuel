@@ -51,4 +51,35 @@ public class GendarmeController : MonoBehaviour
     {
         get { return ResultsDirectory + "\\" + ResultsXmlFileName; }
     }
+
+    #region Singleton stuff
+    private static GendarmeController mInstance;
+    public static GendarmeController Instance
+    {
+        get
+        {
+            if (mInstance == null)
+            {
+                Debug.LogWarning(string.Format("No {0} singleton exists! Creating new one.", typeof(GendarmeController).Name));
+                GameObject owner = new GameObject("GendarmeController");
+                mInstance = owner.AddComponent<GendarmeController>();
+            }
+            return mInstance;
+        }
+    }
+    #endregion
+
+    #region Component Methods
+    private void Awake()
+    {
+        if (mInstance != null && mInstance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        mInstance = this;
+
+        DontDestroyOnLoad(gameObject);
+    }
+    #endregion
 }
