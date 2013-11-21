@@ -6,9 +6,23 @@ using System.Collections.Generic;
 
 public class ClassInspectorPanel : Singleton<ClassInspectorPanel>
 {
+    #region Enums
+    public enum ScreenAlignment
+    {
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight,
+    }
+    #endregion
+
     #region Tunables
-    public Vector2 PanelSize = new Vector2(200, 400);
+    [SerializeField]private int m_PanelWidth = 200;
+    [SerializeField]private int m_PanelHeight = 400;
     public Color SelectedClassParticleColor = Color.blue;
+    public bool ShowAtMousePosition = false;
+    public bool KeepVisible = false;
+    public ScreenAlignment PanelAlignment = ScreenAlignment.TopRight;
     #endregion
 
     #region Private Members
@@ -19,6 +33,16 @@ public class ClassInspectorPanel : Singleton<ClassInspectorPanel>
     #endregion
 
     #region Public Properties
+    public int PanelWidth
+    {
+        get { return m_PanelWidth; }
+    }
+
+    public int PanelHeight
+    {
+        get { return Mathf.Clamp(m_PanelHeight, 100, Screen.height/2); }
+    }
+
     public ClassControl SelectedClass
     {
         get { return mSelectedClass; }
@@ -41,16 +65,6 @@ public class ClassInspectorPanel : Singleton<ClassInspectorPanel>
             }
         }
     }
-
-    public bool Show
-    {
-        get { return mShow; }
-        set
-        {
-            mShow = value;
-            mPanelPos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
-        }
-    }
     #endregion
 
     #region Component Methods
@@ -61,36 +75,65 @@ public class ClassInspectorPanel : Singleton<ClassInspectorPanel>
 
     private void OnGUI()
     {
-        if (Show && SelectedClass != null)
+        if (KeepVisible || (mShow && SelectedClass != null))
         {
-            //Draw the box panel
-            Rect panel = new Rect(mPanelPos.x, mPanelPos.y, PanelSize.x, PanelSize.y);
-            GUI.Box(panel, "Class Inspector");
-
-            Rect panelArea = new Rect(panel.x, panel.y + 40, panel.width, panel.height);
-            GUILayout.BeginArea(panelArea);
-            GUILayout.BeginVertical();
-
-            //Class name
-            GUILayout.Label("Class name: " + SelectedClass.ClassName);
-
-            //Class sewage level
-            GUILayout.Label("Sewage level: " + SelectedClass.SewageLevel);
-
-            //List class dependencies
-            GUILayout.Label("Class dependencies (" + SelectedClass.ClassDependancies.Count + "):");
-            mScrollPos = GUILayout.BeginScrollView(mScrollPos, false, false);
-            foreach(ClassControl.ClassHookup ch in SelectedClass.ClassDependancies)
+            //Figure out where to position the panel
+            if (ShowAtMousePosition)
             {
-                if (ch.AttachedClass != null)
+                mPanelPos = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+            }
+            else
+            {
+                switch(PanelAlignment)
                 {
-                    if (GUILayout.Button(ch.AttachedClass.ClassName))
-                    {
-                        SelectedClass = ch.AttachedClass;
-                    }
+                    case ScreenAlignment.TopLeft:
+                        mPanelPos = new Vector2(0, 0);
+                        break;
+                    case ScreenAlignment.TopRight:
+                        mPanelPos = new Vector2(Screen.width - PanelWidth, 0);
+                        break;
+                    case ScreenAlignment.BottomLeft:
+                        mPanelPos = new Vector2(0, Screen.height - PanelHeight);
+                        break;
+                    case ScreenAlignment.BottomRight:
+                        mPanelPos = new Vector2(Screen.width - PanelWidth, Screen.height - PanelHeight);
+                        break;
                 }
             }
 
+            //Draw the box panel
+            Rect panel = new Rect(mPanelPos.x, mPanelPos.y, PanelWidth, PanelHeight);
+
+            GUILayout.BeginArea(panel, "Class Inspector", "box");
+            GUILayout.BeginVertical();
+            GUILayout.Space(30f);
+
+            //Class name
+            string className = SelectedClass != null ? SelectedClass.ClassName : string.Empty;
+            GUILayout.Label("Class name: " + className);
+
+            //Class score
+            string classScore = SelectedClass != null ? SelectedClass.SewageLevel.ToString() : string.Empty;
+            GUILayout.Label("Sewage level: " + classScore);
+
+            //List class dependencies
+            int numDepedencies = SelectedClass != null ? SelectedClass.ClassDependancies.Count : 0;
+            GUILayout.Label("Class dependencies (" + numDepedencies + "):");
+
+            mScrollPos = GUILayout.BeginScrollView(mScrollPos, false, false, GUILayout.MaxHeight(Screen.height/2));
+            if (SelectedClass != null)
+            {
+                foreach(ClassControl.ClassHookup ch in SelectedClass.ClassDependancies)
+                {
+                    if (ch.AttachedClass != null)
+                    {
+                        if (GUILayout.Button(ch.AttachedClass.ClassName))
+                        {
+                            SelectedClass = ch.AttachedClass;
+                        }
+                    }
+                }
+            }
             GUILayout.EndScrollView();
             GUILayout.EndVertical();
             GUILayout.EndArea();
@@ -112,12 +155,12 @@ public class ClassInspectorPanel : Singleton<ClassInspectorPanel>
                 {
                     if (SelectedClass == clickedClass)
                     {
-                        Show = !Show;
+                        mShow = !mShow;
                     }
                     else
                     {
                         SelectedClass = clickedClass;
-                        Show = true;
+                        mShow = true;
                     }
                 }
             }
