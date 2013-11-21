@@ -9,7 +9,7 @@ using System.Text;
 
 public class XMLParser : MonoBehaviour
 {
-    [SerializeField]private GendarmeController m_GendarmeController = null;
+    public Action<List<DefectInfo>> DefectListPopulated;
 
 	#region Private Members
     private List<DefectInfo> mListOfDefects = new List<DefectInfo>();
@@ -81,18 +81,39 @@ public class XMLParser : MonoBehaviour
     }
     #endregion
 
-    #region Component Methods
-    private void Start()
+    #region Singleton stuff
+    private static XMLParser mInstance;
+    public static XMLParser Instance
     {
-        if (m_GendarmeController == null)
+        get
         {
-            m_GendarmeController = GetComponent<GendarmeController>();
+            if (mInstance == null)
+            {
+                Debug.LogWarning(string.Format("No {0} singleton exists! Creating new one.", typeof(XMLParser).Name));
+                GameObject owner = new GameObject("XMLParser");
+                mInstance = owner.AddComponent<XMLParser>();
+            }
+            return mInstance;
+        }
+    }
+    #endregion
+
+    #region Component Methods
+    private void Awake()
+    {
+        if (mInstance != null && mInstance != this)
+        {
+            Destroy(gameObject);
         }
 
-        if (m_GendarmeController != null)
-        {
-            PopulateDefectList(m_GendarmeController.ResultsXmlFullPath);
-        }
+        mInstance = this;
+
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        PopulateDefectList(GendarmeController.Instance.ResultsXmlFullPath);
     }
     #endregion
 
@@ -118,6 +139,11 @@ public class XMLParser : MonoBehaviour
                 mListOfDefects.Add(new DefectInfo(name, severity));
             }
             reader.Close();
+
+            if (DefectListPopulated != null)
+            {
+                DefectListPopulated(mListOfDefects);
+            }
         }
         else
         {
