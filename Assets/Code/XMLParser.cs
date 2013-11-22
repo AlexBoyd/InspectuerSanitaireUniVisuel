@@ -66,23 +66,34 @@ public class XMLParser : Singleton<XMLParser>
 
         //Parse the defect rules
         reader.Read();
+        reader.ReadToFollowing(kResultsXmlElement);
         while (!reader.EOF)
         {
-            if (reader.ReadToFollowing(kResultsXmlElement) && reader.IsStartElement())
+            //Parse the results element
+            if (reader.IsStartElement())
             {
+                //While we aren't at the end of the results element
+                reader.ReadToFollowing(kRuleXmlElement);
                 while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == kResultsXmlElement))
                 {
-                    if (reader.ReadToFollowing(kRuleXmlElement) && reader.IsStartElement())
+                    //Parse any rule elements
+                    if (reader.IsStartElement())
                     {
+                        //While we aren't at the end of the rule element
+                        reader.ReadToFollowing(kTargetXmlElement);
                         while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == kRuleXmlElement))
                         {
-                            if (reader.ReadToFollowing(kTargetXmlElement) && reader.IsStartElement())
+                            //Parse any target elements
+                            if (reader.IsStartElement())
                             {
                                 string name = reader.GetAttribute(kNameElement);
 
+                                //While we aren't at the end of the target element
+                                reader.ReadToFollowing(kDefectXmlElement);
                                 while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == kTargetXmlElement))
                                 {
-                                    if (reader.ReadToFollowing(kDefectXmlElement) && reader.IsStartElement())
+                                    //Parse any defect elements
+                                    if (reader.IsStartElement())
                                     {
                                         string severity = reader.GetAttribute(kSeverityXmlAttrib);
                                         int severityNum = StringToSeverityLevel(severity);
@@ -96,22 +107,23 @@ public class XMLParser : Singleton<XMLParser>
                                         }
                                     }
 
+                                    //If there are no more defect elements, then exit loop
                                     if (!reader.ReadToNextSibling(kDefectXmlElement))
                                     {
-                                        reader.ReadToFollowing(kTargetXmlElement);
                                         break;
                                     }
                                 }
                             }
 
+                            //If there are no more target elements, then exit loop
                             if (!reader.ReadToNextSibling(kTargetXmlElement))
                             {
-                                reader.ReadToFollowing(kRuleXmlElement);
                                 break;
                             }
                         }
                     }
 
+                    //If there are no more rule elements, then exit loop
                     if (!reader.ReadToNextSibling(kRuleXmlElement))
                     {
                         break;
@@ -120,6 +132,7 @@ public class XMLParser : Singleton<XMLParser>
                 reader.Close();
             }
 
+            //If there are no more results elements, then exit loop
             if (!reader.ReadToNextSibling(kResultsXmlElement))
             {
                 break;
@@ -131,21 +144,25 @@ public class XMLParser : Singleton<XMLParser>
         reader.Read();
         while (!reader.EOF)
         {
-            if (reader.ReadToFollowing(kResultsXmlElement) && reader.IsStartElement())
+            reader.ReadToFollowing(kResultsXmlElement);
+            if (reader.IsStartElement())
             {
+                reader.ReadToFollowing(kDepRuleXmlElement);
                 while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == kResultsXmlElement))
                 {
-                    if (reader.ReadToFollowing(kDepRuleXmlElement) && reader.IsStartElement())
+                    if (reader.IsStartElement())
                     {
+                        reader.ReadToFollowing(kTargetXmlElement);
                         while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == kDepRuleXmlElement))
                         {
-                            if (reader.ReadToFollowing(kTargetXmlElement) && reader.IsStartElement())
+                            if (reader.IsStartElement())
                             {
                                 string targetName = reader.GetAttribute(kNameElement);
 
+                                reader.ReadToFollowing(kDependencyXmlElement);
                                 while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == kTargetXmlElement))
                                 {
-                                    if (reader.ReadToFollowing(kDependencyXmlElement) && reader.IsStartElement())
+                                    if (reader.IsStartElement())
                                     {
                                         string dependencyTargetName = reader.GetAttribute(kDependencyTargetXmlAttrib);
                                         if (!dependencyTargetName.Contains("UnityEngine.") && !dependencyTargetName.Contains("System."))
@@ -171,7 +188,6 @@ public class XMLParser : Singleton<XMLParser>
 
                                     if (!reader.ReadToNextSibling(kDependencyXmlElement))
                                     {
-                                        reader.ReadToFollowing(kTargetXmlElement);
                                         break;
                                     }
                                 }
@@ -179,7 +195,6 @@ public class XMLParser : Singleton<XMLParser>
 
                             if (!reader.ReadToNextSibling(kTargetXmlElement))
                             {
-                                reader.ReadToFollowing(kDepRuleXmlElement);
                                 break;
                             }
                         }
