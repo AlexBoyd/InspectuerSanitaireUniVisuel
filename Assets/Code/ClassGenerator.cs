@@ -75,6 +75,15 @@ public class ClassGenerator : Singleton<ClassGenerator>
                     cc.SewageLevel = 0;
                 }
             }
+			
+			foreach(string className in dependencyScores.Keys)
+			{
+				foreach(string dependencyTarget in dependencyScores[className].Keys)
+				{
+					Classes.Find((cc) => cc.ClassName == className).ClassDependancies.Add(
+						new ClassControl.ClassHookup(Classes.Find((cd) => cd.ClassName == dependencyTarget) ,dependencyScores[className][dependencyTarget]));
+				}
+			}
 		}
 	}
 
