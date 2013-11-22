@@ -49,7 +49,7 @@ public class ClassControl : MonoBehaviour
 			ch.FlowParticles.transform.parent = transform;
 			ch.FlowParticles.transform.localPosition = Vector3.zero;
 			ch.FlowParticles.particleSystem.startColor = BaseDependencyParticleColor;
-			ch.FlowParticles.particleSystem.emissionRate = ch.DepedancyValue * 5f;
+			ch.FlowParticles.particleSystem.emissionRate = ch.DepedancyValue * ClassGen.ParticleEmisionRate;
 		}
 	}
 
@@ -64,7 +64,7 @@ public class ClassControl : MonoBehaviour
 		foreach(ClassHookup cc in ClassDependancies)
 		{
 			rigidbody.AddForce((cc.AttachedClass.gameObject.transform.position - gameObject.transform.position).normalized 
-				* Mathf.Pow(cc.DepedancyValue, 2f) * ClassGen.DependencyAttractionFactor);
+				* Mathf.Pow(cc.DepedancyValue, 0.5f) * ClassGen.DependencyAttractionFactor);
 		}
 
 		rigidbody.AddForce((Vector3.zero - new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, 0f)).normalized * ManhatanDist(Vector3.zero, gameObject.transform.position).sqrMagnitude/ ClassGen.ManhattanCompressionDampingFactor );

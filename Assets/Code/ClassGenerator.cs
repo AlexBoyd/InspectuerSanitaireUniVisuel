@@ -11,6 +11,7 @@ public class ClassGenerator : Singleton<ClassGenerator>
 	public bool MockValues = false;
 	public int NumberOfClasses = 7;
 	public float DependancyFactor = 64;
+	public float DepenendcyHubFactor = 5;
 	
 	[HideInInspector]
 	public int MaxNumberOfDependancies = 0;
@@ -20,6 +21,7 @@ public class ClassGenerator : Singleton<ClassGenerator>
 	public float ClassRepulsionFactor = 20000f;
 	public float ManhattanCompressionDampingFactor = 80000f;
 	public float ZAxisCompressionDampingFactor = 500f;
+	public float ParticleEmisionRate = 1;
 	
 	public List<ClassControl> Classes;
     #endregion
@@ -48,9 +50,9 @@ public class ClassGenerator : Singleton<ClassGenerator>
 			{
 				foreach (ClassControl cd in Classes)
 				{
-					if(cd != cc && DependancyFactor < Random.value * 100 + 4 * cc.ClassDependancies.Count - Mathf.Pow(cc.ClassDependancies.Count, 1.5f))
+					if(cd != cc && DependancyFactor < Random.value * 100 + DepenendcyHubFactor * cc.ClassDependancies.Count - Mathf.Pow(cc.ClassDependancies.Count, 1.5f))
 					{
-						cc.ClassDependancies.Add(new ClassControl.ClassHookup(cd, Random.Range(0.1f, 1f)));
+						cc.ClassDependancies.Add(new ClassControl.ClassHookup(cd, Random.Range(0.1f, 30f)));
 					}
 					MaxNumberOfDependancies = Mathf.Max(MaxNumberOfDependancies, cc.ClassDependancies.Count);
 				}
@@ -78,11 +80,13 @@ public class ClassGenerator : Singleton<ClassGenerator>
 			
 			foreach(string className in dependencyScores.Keys)
 			{
+				ClassControl cc = Classes.Find((c) => c.ClassName == className);
 				foreach(string dependencyTarget in dependencyScores[className].Keys)
 				{
-					Classes.Find((cc) => cc.ClassName == className).ClassDependancies.Add(
+					cc.ClassDependancies.Add(
 						new ClassControl.ClassHookup(Classes.Find((cd) => cd.ClassName == dependencyTarget) ,dependencyScores[className][dependencyTarget]));
 				}
+				MaxNumberOfDependancies = Mathf.Max(MaxNumberOfDependancies, cc.ClassDependancies.Count);
 			}
 		}
 	}
