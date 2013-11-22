@@ -32,7 +32,7 @@ public class ClassGenerator : Singleton<ClassGenerator>
 
     private void GenerateClasses(Dictionary<string, Dictionary<string, int>> dependencyScores, Dictionary<string, int> defectScores)
     {
-		if(MockValues)
+		if (MockValues)
 		{
 			for (int i = 0; i < NumberOfClasses; i++)
 			{
@@ -58,9 +58,7 @@ public class ClassGenerator : Singleton<ClassGenerator>
 		}
 		else
 		{
-			Debug.Log("F");
-			Debug.Log(dependencyScores.Count);
-			foreach(string className in dependencyScores.Keys)
+			foreach (string className in dependencyScores.Keys)
 			{
 				ClassControl cc = (Instantiate(ClassPrefab, Random.insideUnitSphere * 250f, Quaternion.identity) as GameObject).GetComponent<ClassControl>();
 				Classes.Add(cc);
@@ -68,8 +66,15 @@ public class ClassGenerator : Singleton<ClassGenerator>
 				cc.gameObject.transform.parent = transform;
 			    cc.ClassName = className;
 			    cc.gameObject.name = className;
-				cc.SewageLevel = defectScores[className];
-			}
+                if (defectScores.Keys.Contains(className))
+                {
+				    cc.SewageLevel = defectScores[className];
+			    }
+                else
+                {
+                    cc.SewageLevel = 0;
+                }
+            }
 		}
 	}
 

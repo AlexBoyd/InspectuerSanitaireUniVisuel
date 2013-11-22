@@ -22,13 +22,14 @@ public class XMLParser : Singleton<XMLParser>
     private Dictionary<String, int> defectDict = new Dictionary<String, int>();
 	private Dictionary<String, Dictionary<String, int>> dependencyDict = new Dictionary<String, Dictionary<String, int>>();
 
+    private const string kResultsXmlElement = "results";
     private const string kTargetXmlElement = "target";
 	private const string kNameElement = "Name";
     private const string kDefectXmlElement = "defect";
 	private const string kRuleXmlElement = "rule";
 	private const string kDepRuleXmlElement = "dependency_rule";
 	private const string kDependencyXmlElement = "dependency";
-	private const string kDependencyTargetXmlAttrib = "DependencyTarget";
+	private const string kDependencyTargetXmlAttrib = "DependancyTarget";
 	private const string kSeverityXmlAttrib = "Severity";
 	
     #endregion
@@ -54,83 +55,157 @@ public class XMLParser : Singleton<XMLParser>
     public void Parse(string filename)
     {
         XmlReader reader = XmlReader.Create(filename);
-        if (reader != null)
+
+        //Check if Xml file is empty
+        reader.MoveToContent();
+        if (reader.IsEmptyElement)
         {
-			while (reader.ReadToFollowing(kRuleXmlElement))
-			{
-				bool isDone = false;
-				reader.ReadToDescendant(kTargetXmlElement);
-	            while (!isDone)
-	            {
-					Debug.Log("D");	
-	                reader.MoveToAttribute(kNameElement);
-					
-	                string name = reader.Value;
-	
-	                reader.ReadToFollowing(kDefectXmlElement);
-	                reader.MoveToAttribute(kSeverityXmlAttrib);
-	                if(defectDict.ContainsKey(name))
-					{
-						defectDict[name] += StringToSeverityLevel(reader.Value);
-					}
-					else
-					{
-						defectDict.Add(name, StringToSeverityLevel(reader.Value));
-					}
-					isDone = !reader.ReadToNextSibling(kTargetXmlElement);
-	            }
-			}
-			reader.Close();
-		}
-	    reader = XmlReader.Create(filename);
-        if (reader != null)
-        {
-			reader.ReadToFollowing(kDepRuleXmlElement);
-			while (reader.ReadToNextSibling(kDepRuleXmlElement))
-			{
-				reader.ReadToFollowing(kTargetXmlElement);
-				while(reader.ReadToNextSibling(kTargetXmlElement))
-				{
-					reader.MoveToAttribute(kNameElement);
-                	string targetName = reader.Value;
-					reader.ReadToFollowing(kDepRuleXmlElement);
-					while(reader.ReadToNextSibling(kDependencyXmlElement))
-					{
-						
-						reader.MoveToAttribute(kDependencyTargetXmlAttrib);
-						string dependencyTargetName = reader.Value;
-						if (!dependencyTargetName.Contains("UnityEngine.") && !dependencyTargetName.Contains("System."))
-						{
-							reader.MoveToAttribute(kSeverityXmlAttrib);
-							string severity = reader.Value;
-							
-							int severityInt = StringToSeverityLevel(severity);
-							if (!dependencyDict.ContainsKey(targetName))
-							{
-								dependencyDict.Add(targetName, new Dictionary<String, int>());
-							}
-							
-							if (dependencyDict[targetName].ContainsKey(dependencyTargetName))
-							{
-								dependencyDict[targetName][dependencyTargetName] += severityInt;
-							}
-							else
-							{
-								dependencyDict[targetName].Add(dependencyTargetName, severityInt);
-							}
-						}
-					}
-				}
-			}
-            reader.Close();
-			ParseComplete(dependencyDict, defectDict);
+            reader.Read();
+            return;
         }
-        else
+
+        //Parse the defect rules
+        reader.Read();
+        while (!reader.EOF)
         {
-            Debug.LogError(string.Format("Unable to read file {0}", filename), this);
+            if (reader.ReadToFollowing(kResultsXmlElement) && reader.IsStartElement())
+            {
+                while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == kResultsXmlElement))
+                {
+                    if (reader.ReadToFollowing(kRuleXmlElement) && reader.IsStartElement())
+                    {
+                        while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == kRuleXmlElement))
+                        {
+                            if (reader.ReadToFollowing(kTargetXmlElement) && reader.IsStartElement())
+                            {
+                                string name = reader.GetAttribute(kNameElement);
+
+                                while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == kTargetXmlElement))
+                                {
+                                    if (reader.ReadToFollowing(kDefectXmlElement) && reader.IsStartElement())
+                                    {
+                                        string severity = reader.GetAttribute(kSeverityXmlAttrib);
+                                        int severityNum = StringToSeverityLevel(severity);
+                                        if (defectDict.ContainsKey(name))
+                                        {
+                                            defectDict[name] += severityNum;
+                                        }
+                                        else
+                                        {
+                                            defectDict.Add(name, severityNum);
+                                        }
+                                    }
+
+                                    if (!reader.ReadToNextSibling(kDefectXmlElement))
+                                    {
+                                        reader.ReadToFollowing(kTargetXmlElement);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (!reader.ReadToNextSibling(kTargetXmlElement))
+                            {
+                                reader.ReadToFollowing(kRuleXmlElement);
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!reader.ReadToNextSibling(kRuleXmlElement))
+                    {
+                        break;
+                    }
+                }
+                reader.Close();
+            }
+
+            if (!reader.ReadToNextSibling(kResultsXmlElement))
+            {
+                break;
+            }
         }
+
+        //Parse the dependency rules
+        reader = XmlReader.Create(filename);
+        reader.Read();
+        while (!reader.EOF)
+        {
+            if (reader.ReadToFollowing(kResultsXmlElement) && reader.IsStartElement())
+            {
+                while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == kResultsXmlElement))
+                {
+                    if (reader.ReadToFollowing(kDepRuleXmlElement) && reader.IsStartElement())
+                    {
+                        while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == kDepRuleXmlElement))
+                        {
+                            if (reader.ReadToFollowing(kTargetXmlElement) && reader.IsStartElement())
+                            {
+                                string targetName = reader.GetAttribute(kNameElement);
+
+                                while (!(reader.NodeType == XmlNodeType.EndElement && reader.Name == kTargetXmlElement))
+                                {
+                                    if (reader.ReadToFollowing(kDependencyXmlElement) && reader.IsStartElement())
+                                    {
+                                        string dependencyTargetName = reader.GetAttribute(kDependencyTargetXmlAttrib);
+                                        if (!dependencyTargetName.Contains("UnityEngine.") && !dependencyTargetName.Contains("System."))
+                                        {
+                                            string severity = reader.GetAttribute(kSeverityXmlAttrib);
+                                            int severityNum = StringToSeverityLevel(severity);
+
+                                            if (!dependencyDict.ContainsKey(targetName))
+                                            {
+                                                dependencyDict.Add(targetName, new Dictionary<String, int>());
+                                            }
+
+                                            if (dependencyDict[targetName].ContainsKey(dependencyTargetName))
+                                            {
+                                                dependencyDict[targetName][dependencyTargetName] += severityNum;
+                                            }
+                                            else
+                                            {
+                                                dependencyDict[targetName].Add(dependencyTargetName, severityNum);
+                                            }
+                                        }
+                                    }
+
+                                    if (!reader.ReadToNextSibling(kDependencyXmlElement))
+                                    {
+                                        reader.ReadToFollowing(kTargetXmlElement);
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if (!reader.ReadToNextSibling(kTargetXmlElement))
+                            {
+                                reader.ReadToFollowing(kDepRuleXmlElement);
+                                break;
+                            }
+                        }
+                    }
+
+                    if (!reader.ReadToNextSibling(kDepRuleXmlElement))
+                    {
+                        break;
+                    }
+                }
+                reader.Close();
+            }
+
+            if (!reader.ReadToNextSibling(kResultsXmlElement))
+            {
+                break;
+            }
+        }
+
+        Debug.Log(defectDict.Count);
+        Debug.Log(defectDict.Keys.Count);
+        Debug.Log (dependencyDict.Count);
+        Debug.Log (dependencyDict.Keys.Count);
+        ParseComplete(dependencyDict, defectDict);
 	}
-	
+
     #endregion
 
     #region Helper Methods
@@ -152,51 +227,6 @@ public class XMLParser : Singleton<XMLParser>
                 Debug.Log(string.Format("Can't convert {0} string to a SeverityLevel. Returning GendarmeController.SeverityLevel.All", str), this);
                 return 0;
         }
-    }
-
-    // takes in an element name and which attribute value you want
-    // returns a list of values for each attribute value for every element 
-    private List<string> getListOfAttribute(string filename, string element, string attribute)
-    {
-        List<string> returnValue = new List<string>();
-        XmlReader reader = XmlReader.Create(filename);
-
-        if (reader != null)
-        {
-
-            while (reader.Read())
-            {
-                reader.ReadToFollowing(element);
-                reader.MoveToAttribute(attribute);
-                string genre = reader.Value;
-                returnValue.Add(genre);
-            }
-
-            foreach (string str in returnValue)
-            {
-                Console.WriteLine(str);
-            }
-        }
-        return returnValue;
-    }
-
-    // takes in an element name of the value you want
-    // returns a list of values for every element value 
-    private List<string> getListOfElementValues(string filename, string element)
-    {
-        List<string> returnValue = new List<string>();
-        XmlReader reader = XmlReader.Create(filename);
-
-        if (reader != null)
-        {
-            while (reader.Read())
-            {
-                reader.ReadToFollowing(element);
-                string genre = reader.ReadElementContentAsString();
-                returnValue.Add(genre);
-            }
-        }
-        return returnValue;
     }
     #endregion
 }
